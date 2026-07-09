@@ -1,0 +1,9 @@
+{
+  "app_name": "DJ Damelo Music",
+  "app_id": "dj.damelo.music",
+  "webapp_url": "https://dj-damelo-music.netlify.app",
+  "icon_url": "https://dj-damelo-music.netlify.app/photo.jpg",
+  "description": "Ecoutez Riche ou Pauvre, Petit Damelo et soutenez l'artiste en Pi GCV",
+  "categories": ["music", "entertainment"],
+  "version": "1.0.0"
+}
