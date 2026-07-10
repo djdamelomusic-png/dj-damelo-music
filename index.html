@@ -29,13 +29,12 @@
 <div class="card">
   <p style="color:#ffc107; font-size:18px;"><b>1. Riche ou Pauvre</b></p>
   
-  <!-- PLAYER ÉCOUTE GRATUITE -->
-  <audio controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
+  <audio controls controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
     <source src="riche-ou-pauvre.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l'audio.
   </audio>
   <p style="font-size:12px; color:#ccc;">Écoute gratuite. Téléchargement après paiement</p>
 
-  <!-- BOUTON PAIEMENT -->
   <button onclick="acheterSon('riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn">
     📥 Débloquer téléchargement avec 1π
   </button>
@@ -45,8 +44,9 @@
 <div class="card">
   <p style="color:#ffc107; font-size:18px;"><b>2. Petit Damelo - Coupe Décalé</b></p>
   
-  <audio controls controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
+  <audio controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
     <source src="petit-damelo.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l'audio.
   </audio>
   <p style="font-size:12px; color:#ccc;">Écoute gratuite. Téléchargement après paiement</p>
 
@@ -84,64 +84,82 @@
 </div>
 
 <script>
-// 1. INITIALISATION PI
-Pi.init({ version: "2.0", sandbox: true }); // TRUE pour test. Mettre FALSE quand Pi approuve ton app
+// 1. ATTENDRE QUE PI SOIT PRÊT
+window.addEventListener('load', function() {
+  Pi.init({ version: "2.0", sandbox: true }); // TRUE pour test
+});
 
 let currentUser = null;
 
-function onIncompletePaymentFound(payment) { 
-  console.log("Paiement inachevé:", payment); 
-}
-
-// 2. CONNEXION PI
 async function login() {
   try {
-    const auth = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
+    const auth = await Pi.authenticate(['username', 'payments'], () => {});
     currentUser = auth.user.username;
     document.getElementById('login-pi').style.display = 'none';
     document.getElementById('payer-pi').style.display = 'block';
-    alert("Connecté: " + currentUser);
-  } catch(err) { alert("Erreur connexion: " + err.message); }
+    return true;
+  } catch(err) { 
+    alert("Erreur connexion: " + err.message); 
+    return false;
+  }
 }
 
-// 3. BOUTON DON 0.01PI
+// BOUTON DON
 document.getElementById('payer-pi').onclick = async () => {
-  try {
-    await Pi.createPayment({ 
-      amount: 0.01, 
-      memo: "Support DJ Damelo", 
-      metadata: { type: "don" } 
-    }, {
-      onReadyForServerCompletion: () => { alert("Merci pour ton soutien ! 🎵"); },
-      onError: (error) => { alert("Erreur: " + error.message); }
-    });
-  } catch(err) { alert("Ouvre le site dans Pi Browser pour payer"); }
+  await payer(0.01, "Support DJ Damelo");
 }
 
-// 4. BOUTON ACHAT 1PI + TÉLÉCHARGEMENT
+// FONCTION PAIEMENT GÉNÉRIQUE
+async function payer(montant, memo) {
+  try {
+    if(!window.Pi){ alert("Pi SDK pas chargé. Recharge la page"); return; }
+    if(!currentUser){ 
+      let ok = await login(); 
+      if(!ok) return;
+    }
+    
+    await Pi.createPayment({ 
+      amount: montant, 
+      memo: memo, 
+      metadata: {} 
+    }, {
+      onReadyForServerCompletion: () => { alert("Paiement réussi ! Merci 🎵"); },
+      onCancel: () => { alert("Paiement annulé"); },
+      onError: (error) => { alert("Erreur Wallet: " + error.message); }
+    });
+  } catch(err) { 
+    alert("Erreur: " + err.message + ". Recharge la page dans Pi Browser"); 
+  }
+}
+
+// BOUTON TÉLÉCHARGER 1PI
 async function acheterSon(fichier, nomSon) {
   try {
-    if(!currentUser){ await login(); }
+    if(!window.Pi){ alert("Pi SDK pas chargé. Recharge la page"); return; }
+    if(!currentUser){ 
+      let ok = await login(); 
+      if(!ok) return;
+    }
     
     await Pi.createPayment({ 
       amount: 1, 
-      memo: "Téléchargement: " + nomSon + " - DJ Damelo", 
-      metadata: { type: "download", file: fichier, artist: "DJ Damelo" } 
+      memo: "Téléchargement: " + nomSon, 
+      metadata: { file: fichier } 
     }, {
       onReadyForServerCompletion: (paymentId, txid) => { 
-        // DÉBLOQUE LE TÉLÉCHARGEMENT SEULEMENT APRÈS PAIEMENT
         let lien = document.createElement('a');
         lien.href = fichier;
         lien.download = "DJ Damelo - " + nomSon + ".mp3";
         document.body.appendChild(lien);
         lien.click();
         document.body.removeChild(lien);
-        alert("Paiement réussi ! " + nomSon + " téléchargé 🎵");
+        alert("Paiement OK ! Téléchargement lancé 🎵");
       },
-      onCancel: () => { alert("Paiement annulé"); },
       onError: (error) => { alert("Erreur Wallet: " + error.message); }
     });
-  } catch(err) { alert("Ouvre ce lien dans Pi Browser pour payer"); }
+  } catch(err) { 
+    alert("Erreur: " + err.message + ". Recharge la page dans Pi Browser"); 
+  }
 }
 </script>
 
