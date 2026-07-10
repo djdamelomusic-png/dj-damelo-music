@@ -8,7 +8,7 @@
   <style>
     body { background:#000; color:#fff; font-family:Arial; text-align:center; padding:20px; }
     .card { margin:20px 0; padding:15px; border:2px solid #ffc107; border-radius:10px; background:#111; }
-    .btn { background:#ffc107; color:#000; padding:12px 25px; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer; margin:5px; }
+    .btn { background:#ffc107; color:#000; padding:12px 25px; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer; margin:5px; width:90%; }
     .btn-purple { background:#6f00ff; color:#fff; }
     .social-links { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:30px 0; }
     .social-links a { text-decoration:none; font-size:20px; }
@@ -17,7 +17,7 @@
 
 <body>
 
-<!-- EN-TETE DJ DAMELO -->
+<!-- EN-TETE -->
 <h1 style="font-size:40px; margin:0; color:#ffc107;">DJ DAMELO</h1>
 <p style="font-size:16px; margin:5px 0 20px 0; color:#ccc;">Artiste - Producteur - DJ</p>
 <img src="photo.jpg" alt="DJ Damelo" style="width:150px; height:150px; border-radius:50%; border:4px solid #ffc107; margin:15px 0; object-fit:cover; box-shadow:0 0 15px #ffc107;">
@@ -28,34 +28,24 @@
 <!-- SON 1 -->
 <div class="card">
   <p style="color:#ffc107; font-size:18px;"><b>1. Riche ou Pauvre</b></p>
-  
-  <audio controls controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
+  <audio controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
     <source src="riche-ou-pauvre.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
   </audio>
   <p style="font-size:12px; color:#ccc;">Écoute gratuite. Téléchargement après paiement</p>
-
-  <button onclick="acheterSon('riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn">
-    📥 Débloquer téléchargement avec 1π
-  </button>
+  <button onclick="acheterSon('riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn">📥 Débloquer téléchargement avec 1π</button>
 </div>
 
 <!-- SON 2 -->
 <div class="card">
   <p style="color:#ffc107; font-size:18px;"><b>2. Petit Damelo - Coupe Décalé</b></p>
-  
   <audio controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
     <source src="petit-damelo.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
   </audio>
   <p style="font-size:12px; color:#ccc;">Écoute gratuite. Téléchargement après paiement</p>
-
-  <button onclick="acheterSon('petit-damelo.mp3', 'Petit Damelo')" class="btn">
-    📥 Débloquer téléchargement avec 1π
-  </button>
+  <button onclick="acheterSon('petit-damelo.mp3', 'Petit Damelo')" class="btn">📥 Débloquer téléchargement avec 1π</button>
 </div>
 
-<!-- RÉSEAUX SOCIAUX -->
+<!-- RÉSEAUX -->
 <div class="social-links">
   <a href="https://youtube.com/@dj-damelo?si=FNKO22RfBB6CczMn" target="_blank" style="color:#FF0000;">▶️ YouTube</a>
   <a href="https://open.spotify.com/user/31gwxocjetwo6psikmpge57cmpw4?si=GTRme8q6QWev1idi1k_w5A" target="_blank" style="color:#1DB954;">🎵 Spotify</a>
@@ -71,22 +61,17 @@
   <a href="https://maps.app.goo.gl/ERrLjFgSFWdrf28T8" target="_blank" style="color:#4285F4;">📍 Google</a>
 </div>
 
-<!-- BOUTON DON -->
+<!-- BOUTON DON + CONNEXION -->
 <div class="card">
-  <button id="login-pi" onclick="login()" class="btn btn-purple">
-    Se connecter avec Pi
-  </button>
-  <button id="payer-pi" class="btn" style="display:none;">
-    Soutenir avec 0.01π
-  </button>
+  <button id="login-pi" onclick="login()" class="btn btn-purple">Se connecter avec Pi</button>
+  <button id="payer-pi" onclick="faireDon()" class="btn">Soutenir avec 0.01π</button>
   <p style="color:#ffc107; font-size:13px; margin:10px 0 5px 0;">🙏 Soutenez l'artiste</p>
   <p style="color:#ffc107; font-size:18px; font-weight:bold; margin:0;">🎵 GCV $314159</p>
 </div>
 
 <script>
-// 1. ATTENDRE QUE PI SOIT PRÊT
 window.addEventListener('load', function() {
-  Pi.init({ version: "2.0", sandbox: true }); // TRUE pour test
+  Pi.init({ version: "2.0", sandbox: true });
 });
 
 let currentUser = null;
@@ -95,8 +80,9 @@ async function login() {
   try {
     const auth = await Pi.authenticate(['username', 'payments'], () => {});
     currentUser = auth.user.username;
-    document.getElementById('login-pi').style.display = 'none';
-    document.getElementById('payer-pi').style.display = 'block';
+    document.getElementById('login-pi').innerText = "Connecté: " + currentUser;
+    document.getElementById('login-pi').style.background = "#00aa00";
+    alert("Connecté avec succès !");
     return true;
   } catch(err) { 
     alert("Erreur connexion: " + err.message); 
@@ -104,49 +90,35 @@ async function login() {
   }
 }
 
-// BOUTON DON
-document.getElementById('payer-pi').onclick = async () => {
+async function faireDon() {
   await payer(0.01, "Support DJ Damelo");
 }
 
-// FONCTION PAIEMENT GÉNÉRIQUE
 async function payer(montant, memo) {
   try {
-    if(!window.Pi){ alert("Pi SDK pas chargé. Recharge la page"); return; }
+    if(!window.Pi){ alert("Recharge la page dans Pi Browser"); return; }
     if(!currentUser){ 
       let ok = await login(); 
       if(!ok) return;
     }
     
-    await Pi.createPayment({ 
-      amount: montant, 
-      memo: memo, 
-      metadata: {} 
-    }, {
-      onReadyForServerCompletion: () => { alert("Paiement réussi ! Merci 🎵"); },
-      onCancel: () => { alert("Paiement annulé"); },
+    await Pi.createPayment({ amount: montant, memo: memo, metadata: {} }, {
+      onReadyForServerCompletion: () => { alert("Merci pour ton soutien ! 🎵"); },
       onError: (error) => { alert("Erreur Wallet: " + error.message); }
     });
-  } catch(err) { 
-    alert("Erreur: " + err.message + ". Recharge la page dans Pi Browser"); 
-  }
+  } catch(err) { alert("Erreur: " + err.message); }
 }
 
-// BOUTON TÉLÉCHARGER 1PI
 async function acheterSon(fichier, nomSon) {
   try {
-    if(!window.Pi){ alert("Pi SDK pas chargé. Recharge la page"); return; }
+    if(!window.Pi){ alert("Recharge la page dans Pi Browser"); return; }
     if(!currentUser){ 
       let ok = await login(); 
       if(!ok) return;
     }
     
-    await Pi.createPayment({ 
-      amount: 1, 
-      memo: "Téléchargement: " + nomSon, 
-      metadata: { file: fichier } 
-    }, {
-      onReadyForServerCompletion: (paymentId, txid) => { 
+    await Pi.createPayment({ amount: 1, memo: "Téléchargement: " + nomSon, metadata: { file: fichier } }, {
+      onReadyForServerCompletion: () => { 
         let lien = document.createElement('a');
         lien.href = fichier;
         lien.download = "DJ Damelo - " + nomSon + ".mp3";
@@ -157,9 +129,7 @@ async function acheterSon(fichier, nomSon) {
       },
       onError: (error) => { alert("Erreur Wallet: " + error.message); }
     });
-  } catch(err) { 
-    alert("Erreur: " + err.message + ". Recharge la page dans Pi Browser"); 
-  }
+  } catch(err) { alert("Erreur: " + err.message); }
 }
 </script>
 
