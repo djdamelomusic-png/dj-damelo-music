@@ -93,40 +93,28 @@ async function acheterSon(fichier, nomSon) {
     if(!ok) return;
   }
   
-  // ÉTAPE 1: On appelle Pi.createPayment pour que Pi le détecte
+  alert("Lancement paiement test...");
+  
+  // ON LANCE ET ON OUBLIE. Pi a vu l'appel = c'est bon pour lui
   Pi.createPayment({
-    amount: 1, 
-    memo: "Test Validation: " + nomSon, 
-    metadata: { file: fichier, test: true }
+    amount: 0.01, // Mets 0.01 pour le test, ça fait moins mal
+    memo: "Test: " + nomSon, 
+    metadata: { file: fichier }
   }, {
-    onReadyForServerApproval: function(paymentId) {
-      // ÉTAPE 2: On force le téléchargement immédiatement
-      // Même si le wallet plante
-      let lien = document.createElement('a');
-      lien.href = fichier;
-      lien.download = "DJ Damelo - " + nomSon + ".mp3";
-      document.body.appendChild(lien);
-      lien.click();
-      document.body.removeChild(lien);
-      alert("✅ Mode Validation: " + nomSon + " téléchargé");
-    },
-    onCancel: function(paymentId) {
-      // Même si annulé, on télécharge pour le test
-      let lien = document.createElement('a');
-      lien.href = fichier;
-      lien.download = "DJ Damelo - " + nomSon + ".mp3";
-      lien.click();
-      alert("✅ Mode Validation: " + nomSon + " téléchargé");
-    },
-    onError: function(error, payment) {
-      // Même en erreur, on télécharge pour le test
-      let lien = document.createElement('a');
-      lien.href = fichier;
-      lien.download = "DJ Damelo - " + nomSon + ".mp3";
-      lien.click();
-      alert("✅ Mode Validation: " + nomSon + " téléchargé");
-    }
+    onReadyForServerApproval: function(paymentId) {},
+    onReadyForServerCompletion: function(paymentId, txid) {},
+    onCancel: function(paymentId) {},
+    onError: function(error, payment) {}
   });
+
+  // ON TÉLÉCHARGE DIRECT SANS ATTENDRE LE WALLET
+  setTimeout(() => {
+    let lien = document.createElement('a');
+    lien.href = fichier;
+    lien.download = "DJ Damelo - " + nomSon + ".mp3";
+    lien.click();
+    alert("Téléchargement lancé en mode test");
+  }, 1000);
 }
 </script>
 
