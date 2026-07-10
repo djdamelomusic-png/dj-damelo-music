@@ -71,11 +71,14 @@
   <p style="color:#ffc107; font-size:18px; font-weight:bold; margin:10px 0 0 0;">🎵 GCV $314159</p>
 </div>
 
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
 Pi.init({ version: "2.0", sandbox: true });
 
 let currentUser = null;
-function onIncompletePaymentFound(payment) {}
+function onIncompletePaymentFound(payment) {
+  console.log("Paiement incomplet:", payment);
+}
 
 async function login() {
   try {
@@ -93,28 +96,34 @@ async function acheterSon(fichier, nomSon) {
     if(!ok) return;
   }
   
-  alert("Lancement paiement test...");
-  
-  // ON LANCE ET ON OUBLIE. Pi a vu l'appel = c'est bon pour lui
   Pi.createPayment({
-    amount: 0.01, // Mets 0.01 pour le test, ça fait moins mal
+    amount: 0.001, // Test à 0.001π
     memo: "Test: " + nomSon, 
     metadata: { file: fichier }
   }, {
-    onReadyForServerApproval: function(paymentId) {},
-    onReadyForServerCompletion: function(paymentId, txid) {},
-    onCancel: function(paymentId) {},
-    onError: function(error, payment) {}
+    onReadyForServerApproval: async function(paymentId) {
+      await fetch("/api/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId })
+      });
+    },
+    onReadyForServerCompletion: async function(paymentId, txid) {
+      await fetch("/api/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId, txid })
+      });
+      
+      let lien = document.createElement('a');
+      lien.href = fichier;
+      lien.download = "DJ Damelo - " + nomSon + ".mp3";
+      lien.click();
+      alert("Paiement validé !");
+    },
+    onCancel: function(paymentId) { alert("Paiement annulé"); },
+    onError: function(error, payment) { alert("Erreur: " + error); }
   });
-
-  // ON TÉLÉCHARGE DIRECT SANS ATTENDRE LE WALLET
-  setTimeout(() => {
-    let lien = document.createElement('a');
-    lien.href = fichier;
-    lien.download = "DJ Damelo - " + nomSon + ".mp3";
-    lien.click();
-    alert("Téléchargement lancé en mode test");
-  }, 1000);
 }
 </script>
 
