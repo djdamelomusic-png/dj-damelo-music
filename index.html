@@ -5,62 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DJ DAMELO - Artiste Producteur DJ</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body { background:#000; color:#fff; font-family:Arial; text-align:center; padding:20px; }
+    .card { margin:20px 0; padding:15px; border:2px solid #ffc107; border-radius:10px; background:#111; }
+    .btn { background:#ffc107; color:#000; padding:12px 25px; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer; margin:5px; }
+    .btn-purple { background:#6f00ff; color:#fff; }
+    .social-links { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:30px 0; }
+    .social-links a { text-decoration:none; font-size:20px; }
+  </style>
 </head>
 
-<body style="background:#000; color:#fff; font-family:Arial; text-align:center; padding:20px;">
+<body>
 
 <!-- EN-TETE DJ DAMELO -->
 <h1 style="font-size:40px; margin:0; color:#ffc107;">DJ DAMELO</h1>
 <p style="font-size:16px; margin:5px 0 20px 0; color:#ccc;">Artiste - Producteur - DJ</p>
 <img src="photo.jpg" alt="DJ Damelo" style="width:150px; height:150px; border-radius:50%; border:4px solid #ffc107; margin:15px 0; object-fit:cover; box-shadow:0 0 15px #ffc107;">
 <hr style="border:1px solid #ffc107; width:50%; margin:0 auto 30px auto;">
-<!-- FIN EN-TETE -->
 
 <h3 style="margin-top:30px; color:#ffc107;">🔥 Mes Sons - Boutique</h3>
 
 <!-- SON 1 -->
-<div style="margin:20px 0; padding:15px; border:2px solid #ffc107; border-radius:10px; background:#111;">
+<div class="card">
   <p style="color:#ffc107; font-size:18px;"><b>1. Riche ou Pauvre</b></p>
-  <audio controls style="width:100%; margin-bottom:10px;">
+  
+  <!-- PLAYER ÉCOUTE GRATUITE -->
+  <audio controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
     <source src="riche-ou-pauvre.mp3" type="audio/mpeg">
   </audio>
-  <button onclick="acheterSon('riche-ou-pauvre.mp3', 'Riche ou Pauvre')" style="background:#ffc107; color:#000; padding:12px 25px; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer;">
-    📥 Télécharger avec 1π
+  <p style="font-size:12px; color:#ccc;">Écoute gratuite. Téléchargement après paiement</p>
+
+  <!-- BOUTON PAIEMENT -->
+  <button onclick="acheterSon('riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn">
+    📥 Débloquer téléchargement avec 1π
   </button>
 </div>
 
 <!-- SON 2 -->
-<div style="margin:20px 0; padding:15px; border:2px solid #ffc107; border-radius:10px; background:#111;">
+<div class="card">
   <p style="color:#ffc107; font-size:18px;"><b>2. Petit Damelo - Coupe Décalé</b></p>
-  <audio controls style="width:100%; margin-bottom:10px;">
+  
+  <audio controls controlsList="nodownload" oncontextmenu="return false;" style="width:100%; margin-bottom:10px;">
     <source src="petit-damelo.mp3" type="audio/mpeg">
   </audio>
-  <button onclick="acheterSon('petit-damelo.mp3', 'Petit Damelo')" style="background:#ffc107; color:#000; padding:12px 25px; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer;">
-    📥 Télécharger avec 1π
+  <p style="font-size:12px; color:#ccc;">Écoute gratuite. Téléchargement après paiement</p>
+
+  <button onclick="acheterSon('petit-damelo.mp3', 'Petit Damelo')" class="btn">
+    📥 Débloquer téléchargement avec 1π
   </button>
 </div>
 
-<div class="social-links" style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:30px 0;">
-  <a href="https://youtube.com/@dj-damelo?si=FNKO22RfBB6CczMn" target="_blank" style="color:#FF0000; font-size:20px; text-decoration:none;">▶️ YouTube</a>
-  <a href="https://open.spotify.com/user/31gwxocjetwo6psikmpge57cmpw4?si=GTRme8q6QWev1idi1k_w5A" target="_blank" style="color:#1DB954; font-size:20px; text-decoration:none;">🎵 Spotify</a>
-  <a href="https://on.soundcloud.com/J9QWLMdqzJxhputfo5" target="_blank" style="color:#FF5500; font-size:20px; text-decoration:none;">☁️ SoundCloud</a>
-  <a href="https://www.boomplay.com/shareUser/113931343?share_platform=an&srList=ANDROID&srModel=byWH&share_channel=whatsapp&share_content=user" target="_blank" style="color:#FAB400; font-size:20px; text-decoration:none;">💿 Boomplay</a>
-  <a href="https://vm.tiktok.com/ZS96T3CcfbdEE-ym6vk/" target="_blank" style="color:#fff; font-size:20px; text-decoration:none;">♪ TikTok</a>
-  <a href="https://www.instagram.com/dj_damelo?igsh=a2Zzejd4b2xpYjZz" target="_blank" style="color:#E4405F; font-size:20px; text-decoration:none;">📷 Insta</a>
-  <a href="https://www.facebook.com/share/18yyeS1TaS/" target="_blank" style="color:#1877F2; font-size:20px; text-decoration:none;">f Facebook</a>
-  <a href="https://x.com/Dj_Damelo" target="_blank" style="color:#fff; font-size:20px; text-decoration:none;">𝕏 X</a>
-  <a href="https://rapfame.app/user/dj_damelo" target="_blank" style="color:#FF3D00; font-size:20px; text-decoration:none;">🎤 RapGame</a>
-  <a href="https://t.me/+233242668880" target="_blank" style="color:#0088CC; font-size:20px; text-decoration:none;">💬 Telegram</a>
-  <a href="https://www.linkedin.com/in/bro-elisha-768b38231?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" style="color:#0A66C2; font-size:20px; text-decoration:none;">💼 LinkedIn</a>
-  <a href="https://maps.app.goo.gl/ERrLjFgSFWdrf28T8" target="_blank" style="color:#4285F4; font-size:20px; text-decoration:none;">📍 Google</a>
+<!-- RÉSEAUX SOCIAUX -->
+<div class="social-links">
+  <a href="https://youtube.com/@dj-damelo?si=FNKO22RfBB6CczMn" target="_blank" style="color:#FF0000;">▶️ YouTube</a>
+  <a href="https://open.spotify.com/user/31gwxocjetwo6psikmpge57cmpw4?si=GTRme8q6QWev1idi1k_w5A" target="_blank" style="color:#1DB954;">🎵 Spotify</a>
+  <a href="https://on.soundcloud.com/J9QWLMdqzJxhputfo5" target="_blank" style="color:#FF5500;">☁️ SoundCloud</a>
+  <a href="https://www.boomplay.com/shareUser/113931343?share_platform=an&srList=ANDROID&srModel=byWH&share_channel=whatsapp&share_content=user" target="_blank" style="color:#FAB400;">💿 Boomplay</a>
+  <a href="https://vm.tiktok.com/ZS96T3CcfbdEE-ym6vk/" target="_blank" style="color:#fff;">♪ TikTok</a>
+  <a href="https://www.instagram.com/dj_damelo?igsh=a2Zzejd4b2xpYjZz" target="_blank" style="color:#E4405F;">📷 Insta</a>
+  <a href="https://www.facebook.com/share/18yyeS1TaS/" target="_blank" style="color:#1877F2;">f Facebook</a>
+  <a href="https://x.com/Dj_Damelo" target="_blank" style="color:#fff;">𝕏 X</a>
+  <a href="https://rapfame.app/user/dj_damelo" target="_blank" style="color:#FF3D00;">🎤 RapGame</a>
+  <a href="https://t.me/+233242668880" target="_blank" style="color:#0088CC;">💬 Telegram</a>
+  <a href="https://www.linkedin.com/in/bro-elisha-768b38231?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" style="color:#0A66C2;">💼 LinkedIn</a>
+  <a href="https://maps.app.goo.gl/ERrLjFgSFWdrf28T8" target="_blank" style="color:#4285F4;">📍 Google</a>
 </div>
 
 <!-- BOUTON DON -->
-<div style="text-align:center; margin:20px 0; padding:20px; border:2px solid #ffc107; border-radius:15px; background:#111;">
-  <button id="login-pi" onclick="login()" style="background:#6f00ff; color:#fff; padding:12px 24px; border:none; border-radius:8px; font-size:16px; font-weight:bold; margin-bottom:10px; cursor:pointer;">
+<div class="card">
+  <button id="login-pi" onclick="login()" class="btn btn-purple">
     Se connecter avec Pi
   </button>
-  <button id="payer-pi" style="background:#ffc107; color:#000; padding:12px 24px; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer; display:none;">
+  <button id="payer-pi" class="btn" style="display:none;">
     Soutenir avec 0.01π
   </button>
   <p style="color:#ffc107; font-size:13px; margin:10px 0 5px 0;">🙏 Soutenez l'artiste</p>
@@ -68,55 +84,64 @@
 </div>
 
 <script>
-Pi.init({ version: "2.0", sandbox: true }); // TRUE = Pi de test gratuit
+// 1. INITIALISATION PI
+Pi.init({ version: "2.0", sandbox: true }); // TRUE pour test. Mettre FALSE quand Pi approuve ton app
+
 let currentUser = null;
 
-function onIncompletePaymentFound(payment) { console.log("Paiement incomplet:", payment); }
+function onIncompletePaymentFound(payment) { 
+  console.log("Paiement inachevé:", payment); 
+}
 
+// 2. CONNEXION PI
 async function login() {
   try {
-    const auth = await Pi.authenticate(['payments'], onIncompletePaymentFound);
+    const auth = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
     currentUser = auth.user.username;
     document.getElementById('login-pi').style.display = 'none';
     document.getElementById('payer-pi').style.display = 'block';
-  } catch(err) { alert("Erreur connexion: " + err); }
+    alert("Connecté: " + currentUser);
+  } catch(err) { alert("Erreur connexion: " + err.message); }
 }
 
-// BOUTON DON 0.01PI
+// 3. BOUTON DON 0.01PI
 document.getElementById('payer-pi').onclick = async () => {
   try {
-    await Pi.createPayment({ amount: 0.01, memo: "Support DJ Damelo", metadata: { type: "don" } }, {
-      onReadyForServerCompletion: function(paymentId, txid) { alert("Merci pour ton soutien ! 🎵"); },
-      onError: function(error) { alert("Erreur: " + error.message); }
+    await Pi.createPayment({ 
+      amount: 0.01, 
+      memo: "Support DJ Damelo", 
+      metadata: { type: "don" } 
+    }, {
+      onReadyForServerCompletion: () => { alert("Merci pour ton soutien ! 🎵"); },
+      onError: (error) => { alert("Erreur: " + error.message); }
     });
   } catch(err) { alert("Ouvre le site dans Pi Browser pour payer"); }
 }
 
-// FONCTION TÉLÉCHARGER AVEC 1PI
+// 4. BOUTON ACHAT 1PI + TÉLÉCHARGEMENT
 async function acheterSon(fichier, nomSon) {
   try {
-    if(!currentUser){
-      await login();
-    }
+    if(!currentUser){ await login(); }
     
     await Pi.createPayment({ 
       amount: 1, 
-      memo: "Achat: " + nomSon, 
-      metadata: { type: "download", file: fichier } 
+      memo: "Téléchargement: " + nomSon + " - DJ Damelo", 
+      metadata: { type: "download", file: fichier, artist: "DJ Damelo" } 
     }, {
-      onReadyForServerCompletion: function(paymentId, txid) { 
-        // Après paiement → Téléchargement
+      onReadyForServerCompletion: (paymentId, txid) => { 
+        // DÉBLOQUE LE TÉLÉCHARGEMENT SEULEMENT APRÈS PAIEMENT
         let lien = document.createElement('a');
         lien.href = fichier;
-        lien.download = nomSon + ".mp3";
+        lien.download = "DJ Damelo - " + nomSon + ".mp3";
         document.body.appendChild(lien);
         lien.click();
         document.body.removeChild(lien);
-        alert("Paiement réussi ! Téléchargement de " + nomSon + " lancé 🎵");
+        alert("Paiement réussi ! " + nomSon + " téléchargé 🎵");
       },
-      onError: function(error) { alert("Erreur: " + error.message); }
+      onCancel: () => { alert("Paiement annulé"); },
+      onError: (error) => { alert("Erreur Wallet: " + error.message); }
     });
-  } catch(err) { alert("Ouvre le site dans Pi Browser pour acheter"); }
+  } catch(err) { alert("Ouvre ce lien dans Pi Browser pour payer"); }
 }
 </script>
 
