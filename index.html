@@ -72,10 +72,9 @@
 </div>
 
 <script>
-Pi.init({ version: "2.0", sandbox: true });
+Pi.init({ version: "2.0", sandbox: false }); // IMPORTANT: FALSE
 
 let currentUser = null;
-
 function onIncompletePaymentFound(payment) {}
 
 async function login() {
@@ -94,15 +93,22 @@ async function acheterSon(fichier, nomSon) {
     if(!ok) return;
   }
   
-  // ON SAUTE LE WALLET EN MODE TEST
-  let confirmer = confirm("Simuler paiement de 1π pour " + nomSon + " ?");
-  if(confirmer){
-    let lien = document.createElement('a');
-    lien.href = fichier;
-    lien.download = "DJ Damelo - " + nomSon + ".mp3";
-    lien.click();
-    alert("Fichier téléchargé !");
-  }
+  Pi.createPayment({
+    amount: 1, 
+    memo: "Téléchargement: " + nomSon, 
+    metadata: { file: fichier }
+  }, {
+    onReadyForServerApproval: function(paymentId) {},
+    onReadyForServerCompletion: function(paymentId, txid) { 
+      let lien = document.createElement('a');
+      lien.href = fichier;
+      lien.download = "DJ Damelo - " + nomSon + ".mp3";
+      lien.click();
+      alert("Paiement validé ! " + nomSon + " téléchargé 🎵");
+    },
+    onCancel: function(paymentId) { alert("Paiement annulé"); },
+    onError: function(error, payment) { alert("Erreur: " + error); }
+  });
 }
 </script>
 
