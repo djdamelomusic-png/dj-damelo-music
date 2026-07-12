@@ -91,29 +91,36 @@
 
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-  Pi.init({ version: "2.0", sandbox: false });
+Pi.init({ version: "2.0", sandbox: false });
 
-  function payerEtTelecharger(fichier, nomSon) {
-    if(!window.Pi) { alert("Ouvre dans Pi Browser"); return; }
+async function payerEtTelecharger(fichier, nomSon) {
+  if(!window.Pi) { alert("Ouvre ce site DANS Pi Browser"); return; }
 
+  try {
+    // 1. AUTHENTIFICATION OBLIGATOIRE
+    await Pi.authenticate(['username', 'payments']);
+
+    // 2. LANCEMENT PAIEMENT TEST 0.01 Pi
     Pi.createPayment({
-      amount: 0.01, // MET 0.01 Pi pour le test
+      amount: 0.01,
       memo: "TEST VALIDATION - " + nomSon,
-      metadata: { son: nomSon }
+      metadata: { son: nomSon, fichier: fichier }
     }, {
       onReadyForServerApproval: function(paymentId) {
-        // ON NE FAIT RIEN ICI POUR LE TEST
-        Pi.approvePayment(paymentId); // APPROUVE DIRECT
+        fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
       },
       onReadyForServerCompletion: function(paymentId, txid) {
-        Pi.completePayment(paymentId, txid); // TERMINE DIRECT
+        fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
         alert("✅ Paiement test OK !");
         window.location.href = fichier;
       },
       onCancel: function() { alert("Annulé"); },
-      onError: function(error) { alert("Erreur: " + error); }
+      onError: function(error) { alert("Erreur Pi: " + error); }
     });
+  } catch(err) {
+    alert("Erreur Auth: " + err);
   }
+}
 </script>
 
 </body>
