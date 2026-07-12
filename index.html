@@ -89,8 +89,7 @@
       <p>Email: dj.damelo.music@gmail.com</p>
     </div>
 
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
+  <script>
   Pi.init({ version: "2.0", sandbox: false });
 
   async function payerEtTelecharger(fichier, nomSon) {
@@ -100,17 +99,14 @@
     }
 
     try {
-      // 1. Connexion au wallet
       await Pi.authenticate(['username', 'payments'], function(payment) {});
 
-      // 2. Créer le paiement
       Pi.createPayment({
         amount: 1,
         memo: "Achat: " + nomSon + " - DJ DAMELO",
         metadata: { son: nomSon, fichier: fichier }
       }, {
         
-        // 👇👇👇 TU COLLES ICI 👇👇👇
         onReadyForServerApproval: async function(paymentId) {
           await fetch('/api/approve', { 
             method: 'POST', 
@@ -118,6 +114,7 @@
             body: JSON.stringify({ paymentId }) 
           });
         },
+
         onReadyForServerCompletion: async function(paymentId, txid) {
           const res = await fetch('/api/complete', { 
             method: 'POST', 
@@ -125,17 +122,17 @@
             body: JSON.stringify({ paymentId, txid }) 
           });
           const data = await res.json();
-          if(data.status === "success") {
+          
+          if(data.status === "success") { // <-- Si le serveur dit success
             let link = document.createElement('a');
             link.href = fichier;
             link.download = nomSon + ".mp3";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            alert("✅ Paiement reçu ! Téléchargement lancé 🙏 Merci pour ton soutien");
+            alert("✅ Paiement reçu ! Téléchargement lancé 🙏 Merci pour ton soutien DJ DAMELO");
           }
         },
-        // 👆👆👆 JUSQUE ICI 👆👆👆
 
         onCancel: function(paymentId) { alert("Paiement annulé."); },
         onError: function(error) { alert("Erreur Pi: " + error); }
