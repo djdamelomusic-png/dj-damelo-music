@@ -1,6 +1,7 @@
-module.exports = async function handler(req, res) {
-  const { paymentId } = req.body;
-  console.log("Paiement à approuver:", paymentId);
+export default function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(200).json({ status: "approved" });
+  }
   
   res.status(200).json({ status: "approved" });
 }
