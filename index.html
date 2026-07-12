@@ -145,45 +145,53 @@
   Pi.init({ version: "2.0", sandbox: false });
 
   async function payerEtTelecharger(fichier, nomSon) {
-  try {
-    await Pi.authenticate(['payments', 'username']);
+    try {
+      await Pi.authenticate(['payments', 'username']);
 
-    Pi.createPayment({
-      amount: 1,
-      memo: "Achat: " + nomSon + " - DJ DAMELO",
-      metadata: { son: nomSon }
-    }, {
-      // 1. APPROUVER LE PAIEMENT
-      onReadyForServerApproval: async function(paymentId) {
-        await fetch('/api/approve', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ paymentId })
-        });
-      },
-      // 2. FINALISER ET LANCER TÉLÉCHARGEMENT
-      onReadyForServerCompletion: async function(paymentId, txid) {
-        await fetch('/api/complete', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ paymentId, txid })
-        });
+      Pi.createPayment({
+        amount: 1,
+        memo: "Achat: " + nomSon + " - DJ DAMELO",
+        metadata: { son: nomSon, fichier: fichier }
+      }, {
+        // 1. Pi demande approbation à ton serveur
+        onReadyForServerApproval: async function(paymentId) {
+          const res = await fetch('/api/approve', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ paymentId })
+          });
+        },
+
+        // 2. Pi dit que le paiement est FINI et sur la blockchain
+        onReadyForServerCompletion: async function(paymentId, txid) {
+          const res = await fetch('/api/complete', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ paymentId, txid })
+          });
+          
+          const data = await res.json();
+
+          // SEULEMENT ICI on télécharge
+          if(data.status === "success") {
+            let link = document.createElement('a');
+            link.href = fichier;
+            link.download = nomSon + ".mp3";
+            link.click();
+            alert("✅ Paiement reçu ! '" + nomSon + "' téléchargé. Merci pour votre soutien 🙏");
+          } else {
+            alert("Erreur: Le paiement n'a pas été confirmé");
+          }
+        },
         
-        // Téléchargement
-        let link = document.createElement('a');
-        link.href = fichier;
-        link.download = nomSon + ".mp3";
-        link.click();
-        alert("Merci ! '" + nomSon + "' téléchargé 🙏");
-      },
-      onCancel: function(paymentId) { alert("Paiement annulé."); },
-      onError: function(error) { alert("Erreur: " + error); }
-    });
+        onCancel: function(paymentId) { alert("Paiement annulé."); },
+        onError: function(error) { alert("Erreur: " + error); }
+      });
 
-  } catch(err) {
-    alert("Erreur connexion Pi: " + err);
+    } catch(err) {
+      alert("Erreur connexion Pi: " + err);
+    }
   }
-}
 </script>
 
 </body>
