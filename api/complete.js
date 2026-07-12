@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // 👇👇 COLLE CES 2 LIGNES ICI AUSSI 👇👇
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
 
@@ -11,7 +10,7 @@ export default async function handler(req, res) {
     const { paymentId, txid } = req.body;
     console.log("Compléter paiement:", paymentId, txid);
     
-    return res.status(200).json({ status: "success" });
+    return res.status(200).json({ status: "success" }); // <-- TRÈS IMPORTANT
     
   } catch (error) {
     console.error(error);
