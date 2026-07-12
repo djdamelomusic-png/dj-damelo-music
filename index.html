@@ -93,38 +93,38 @@
 <script>
   Pi.init({ version: "2.0", sandbox: false });
 
-  function payerEtTelecharger(fichier, nomSon) {
-    
-    alert("1. Est-ce que Pi existe ? " + typeof window.Pi); // DEBUG
-    
+  async function payerEtTelecharger(fichier, nomSon) {
     if(!window.Pi) { 
-      alert("❌ ERREUR: Pi SDK non chargé. Recharge la page dans Pi Browser"); 
+      alert("Ouvre ce site DANS Pi Browser"); 
       return; 
     }
 
-    alert("2. OK Pi est là. On se connecte...");
+    // ON SUPPRIME AUTHENTICATE
+    alert("Lancement du paiement...");
 
-    Pi.authenticate(['username', 'payments'], function(auth) {
-      alert("3. Connecté: " + auth.username);
-
-      Pi.createPayment({
-        amount: 1,
-        memo: "Achat: " + nomSon + " - DJ DAMELO",
-        metadata: { son: nomSon, fichier: fichier }
-      }, {
-        onReadyForServerApproval: async function(paymentId) {
-          alert("4. Approval: " + paymentId);
-          await fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
-        },
-        onReadyForServerCompletion: async function(paymentId, txid) {
-          alert("5. Completion: " + paymentId);
-          await fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
-          alert("✅ Téléchargement !");
-          window.location.href = fichier;
-        },
-        onCancel: function() { alert("Annulé"); },
-        onError: function(err) { alert("Erreur: " + err); }
-      });
+    Pi.createPayment({
+      amount: 1,
+      memo: "Achat: " + nomSon + " - DJ DAMELO",
+      metadata: { son: nomSon, fichier: fichier }
+    }, {
+      onReadyForServerApproval: async function(paymentId) {
+        await fetch('/api/approve', { 
+          method: 'POST', 
+          headers: {'Content-Type': 'application/json'}, 
+          body: JSON.stringify({ paymentId }) 
+        });
+      },
+      onReadyForServerCompletion: async function(paymentId, txid) {
+        await fetch('/api/complete', { 
+          method: 'POST', 
+          headers: {'Content-Type': 'application/json'}, 
+          body: JSON.stringify({ paymentId, txid }) 
+        });
+        alert("✅ Paiement reçu ! Téléchargement lancé");
+        window.location.href = fichier;
+      },
+      onCancel: function() { alert("Paiement annulé."); },
+      onError: function(error) { alert("Erreur: " + error); }
     });
   }
 </script>
