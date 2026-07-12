@@ -93,37 +93,24 @@
 <script>
   Pi.init({ version: "2.0", sandbox: false });
 
-  async function payerEtTelecharger(fichier, nomSon) {
-    if(!window.Pi) { 
-      alert("Ouvre ce site DANS Pi Browser"); 
-      return; 
-    }
-
-    // ON SUPPRIME AUTHENTICATE
-    alert("Lancement du paiement...");
+  function payerEtTelecharger(fichier, nomSon) {
+    if(!window.Pi) { alert("Ouvre dans Pi Browser"); return; }
 
     Pi.createPayment({
-      amount: 1,
-      memo: "Achat: " + nomSon + " - DJ DAMELO",
-      metadata: { son: nomSon, fichier: fichier }
+      amount: 0.01, // MET 0.01 Pi pour le test
+      memo: "TEST VALIDATION - " + nomSon,
+      metadata: { son: nomSon }
     }, {
-      onReadyForServerApproval: async function(paymentId) {
-        await fetch('/api/approve', { 
-          method: 'POST', 
-          headers: {'Content-Type': 'application/json'}, 
-          body: JSON.stringify({ paymentId }) 
-        });
+      onReadyForServerApproval: function(paymentId) {
+        // ON NE FAIT RIEN ICI POUR LE TEST
+        Pi.approvePayment(paymentId); // APPROUVE DIRECT
       },
-      onReadyForServerCompletion: async function(paymentId, txid) {
-        await fetch('/api/complete', { 
-          method: 'POST', 
-          headers: {'Content-Type': 'application/json'}, 
-          body: JSON.stringify({ paymentId, txid }) 
-        });
-        alert("✅ Paiement reçu ! Téléchargement lancé");
+      onReadyForServerCompletion: function(paymentId, txid) {
+        Pi.completePayment(paymentId, txid); // TERMINE DIRECT
+        alert("✅ Paiement test OK !");
         window.location.href = fichier;
       },
-      onCancel: function() { alert("Paiement annulé."); },
+      onCancel: function() { alert("Annulé"); },
       onError: function(error) { alert("Erreur: " + error); }
     });
   }
