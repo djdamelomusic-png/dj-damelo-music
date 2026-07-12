@@ -89,43 +89,41 @@
       <p>Email: dj.damelo.music@gmail.com</p>
     </div>
 
-  </div>
-
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <script>
-    Pi.init({ version: "2.0", sandbox: false });
+<script>
+  Pi.init({ version: "2.0", sandbox: false });
 
-    async function payerEtTelecharger(fichier, nomSon) {
-      if(!window.Pi) { alert("⚠️ Ouvre ce site dans Pi Browser pour payer avec Pi"); return; }
-      try {
-        await Pi.authenticate(['payments', 'username']);
-        Pi.createPayment({
-          amount: 1,
-          memo: "Achat: " + nomSon + " - DJ DAMELO",
-          metadata: { son: nomSon, fichier: fichier }
-        }, {
-          onReadyForServerApproval: async function(paymentId) {
-            await fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
-          },
-          onReadyForServerCompletion: async function(paymentId, txid) {
-            const res = await fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
-            const data = await res.json();
-            if(data.status === "success") {
-              let link = document.createElement('a');
-              link.href = fichier;
-              link.download = nomSon + ".mp3";
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              alert("✅ Paiement reçu ! Téléchargement lancé 🙏 Merci pour ton soutien");
-            }
-          },
-          onCancel: function(paymentId) { alert("Paiement annulé."); },
-          onError: function(error) { alert("Erreur Pi: " + error); }
-        });
-      } catch(err) { alert("Erreur connexion Pi: " + err); }
+  async function payerEtTelecharger(fichier, nomSon) {
+    try {
+      alert("1. Je lance Pi.authenticate...");
+      
+      const scopes = ['username', 'payments'];
+      const auth = await Pi.authenticate(scopes, function(payment) {});
+      
+      alert("2. Connecté ! Bienvenue " + auth.user.username);
+
+      alert("3. Maintenant je lance le paiement de 1 Pi");
+
+      Pi.createPayment({
+        amount: 1,
+        memo: "Test: " + nomSon,
+        metadata: { son: nomSon }
+      }, {
+        onReadyForServerApproval: function(paymentId) {
+          alert("4. Paiement créé. ID: " + paymentId);
+        },
+        onReadyForServerCompletion: function(paymentId, txid) {
+          alert("5. Paiement terminé !");
+        },
+        onCancel: function(paymentId) { alert("Annulé"); },
+        onError: function(error) { alert("Erreur: " + error); }
+      });
+
+    } catch(err) { 
+      alert("ERREUR GLOBALE: " + err); 
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
