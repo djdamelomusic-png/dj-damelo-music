@@ -16,6 +16,7 @@
 </head>
 <body>
   <div class="container">
+    <!-- Photo à la racine -->
     <img src="/damelo.jpg" alt="DJ DAMELO" class="logo">
     <h1>DJ DAMELO</h1>
     <div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
@@ -24,23 +25,23 @@
     <!-- SON 1 -->
     <div class="card">
       <h3>1. Riche ou Pauvre</h3>
-      <!-- J'AI JUSTE AJOUTÉ controlsList="nodownload" ICI -->
-      <audio controls controlsList="nodownload">
+      <audio controls>
+        <!-- Le / devant est important -->
         <source src="/riche-ou-pauvre.mp3" type="audio/mpeg">
       </audio>
       <button onclick="payerEtTelecharger('/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
     </div>
+
     <!-- SON 2 -->
     <div class="card">
       <h3>2. Petit Damelo</h3>
-      <!-- ET ICI AUSSI -->
-      <audio controls controlsList="nodownload">
+      <audio controls>
         <source src="/petit-damelo.mp3" type="audio/mpeg">
       </audio>
-      <button onclick="payerEtTelecharger('/petit-damelo.mp3', 'Petit Damelo')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
+      <button onclick="payerEtTelecharger('/petit-damelo.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
     </div>
-    
-</div>
+
+  </div>
   <button onclick="p
 
     <h2>📱 Suivez-moi partout</h2>
@@ -58,6 +59,15 @@
       <a href="https://www.linkedin.com/in/bro-elisha-768b38231?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">💼 LinkedIn</a>
       <a href="https://maps.app.goo.gl/ERrLjFgSFWdrf28T8" target="_blank">📍 Google</a>
     </div>
+
+    <div class="contact">
+      <h2>📞 Contact / Booking</h2>
+      <p>WhatsApp 1: <a href="https://wa.me/233242668880" target="_blank">+233 24 266 8880</a></p>
+      <p>WhatsApp 2: <a href="https://wa.me/22896275873" target="_blank">+228 96 27 58 73</a></p>
+      <p>Email: dj.damelo.music@gmail.com</p>
+    </div>
+
+  </div>
 
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <script>
@@ -94,6 +104,6 @@
       } catch(err) { alert("Erreur connexion Pi: " + err); }
     }
   </script>
-    
+
 </body>
 </html>
