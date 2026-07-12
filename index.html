@@ -142,30 +142,43 @@
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-window.onload = function() {
-  if (typeof Pi === 'undefined') {
-    alert("ERREUR: Pi SDK ne charge pas. Ouvre avec Pi Browser");
-  } else {
-    alert("Pi SDK OK");
-    Pi.init({ version: "2.0", sandbox: false });
-  }
-}
+  Pi.init({ version: "2.0", sandbox: false });
 
-function payerEtTelecharger(fichier, nomSon) {
-  Pi.createPayment({
-    amount: 1,
-    memo: "Achat: " + nomSon,
-    metadata: { son: nomSon }
-  }, {
-    onReadyForServerCompletion: function(paymentId, txid) {
-      let link = document.createElement('a');
-      link.href = fichier;
-      link.download = nomSon + ".mp3";
-      link.click();
-    },
-    onError: function(error) { alert("Erreur: " + error); }
-  });
-}
+  async function payerEtTelecharger(fichier, nomSon) {
+    
+    try {
+      // ÉTAPE 1 : Se connecter à Pi pour avoir le droit de payer
+      const auth = await Pi.authenticate(['payments', 'username'], function(payment) {
+        console.log("Paiement incomplet", payment);
+      });
+      
+      console.log("Connecté:", auth.user.username);
+
+      // ÉTAPE 2 : Lancer le paiement
+      Pi.createPayment({
+        amount: 1,
+        memo: "Achat: " + nomSon + " - DJ DAMELO",
+        metadata: { son: nomSon }
+      }, {
+        onReadyForServerApproval: function(paymentId) {},
+        onReadyForServerCompletion: function(paymentId, txid) {
+          // TÉLÉCHARGEMENT AUTO
+          let link = document.createElement('a');
+          link.href = fichier;
+          link.download = nomSon + ".mp3";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          alert("Merci pour votre soutien ! '" + nomSon + "' téléchargé 🙏");
+        },
+        onCancel: function(paymentId) { alert("Paiement annulé."); },
+        onError: function(error) { alert("Erreur: " + error); }
+      });
+
+    } catch(err) {
+      alert("Erreur connexion Pi: " + err);
+    }
+  }
 </script>
 
 </body>
