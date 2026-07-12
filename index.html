@@ -3,125 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DJ DAMELO - Artiste Producteur Officiel</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <title>DJ DAMELO MUSIC - 1 Pi</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      background: linear-gradient(180deg, #FF8C00, #FFD700, #32CD32); 
-      color: white; 
-      font-family: 'Arial', sans-serif; 
-      text-align: center; 
-      padding: 20px 15px; 
-    }
-    .container { max-width: 500px; margin: 0 auto; }
-    h1 { font-size: 36px; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-    .subtitle { font-size: 15px; margin-bottom: 20px; opacity: 0.9; }
-    .profile-img { 
-      border-radius: 50%; 
-      width: 170px; 
-      height: 170px;
-      object-fit: cover;
-      border: 5px solid white; 
-      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-      margin-bottom: 20px;
-    }
-    .bio { 
-      background: rgba(255,255,255,0.15); 
-      padding: 15px; 
-      border-radius: 15px; 
-      margin: 20px 0;
-      font-size: 14px;
-    }
-    h2 { margin: 25px 0 15px 0; font-size: 24px; }
-    .card { 
-      background: white; 
-      color: black; 
-      border-radius: 20px; 
-      padding: 20px; 
-      margin: 15px 0; 
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
-    .card h3 { margin-bottom: 12px; font-size: 17px; }
-    .card p { font-size: 12px; color: #555; margin-bottom: 10px; }
-    audio { width: 100%; margin: 10px 0; border-radius: 10px; }
-    .btn { 
-      background: linear-gradient(90deg, #00FF00, #FFD700); 
-      color: black;
-      padding: 14px; 
-      border-radius: 30px; 
-      border: none; 
-      font-weight: bold; 
-      font-size: 15px;
-      width: 100%; 
-      margin-top: 10px;
-      cursor: pointer;
-    }
-    .social-links {
-      display: flex; 
-      flex-wrap: wrap; 
-      justify-content: center; 
-      gap: 12px; 
-      margin: 30px 0;
-    }
-    .social-links a {
-      background: white;
-      color: black;
-      padding: 10px 16px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 13px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    }
-    .contact {
-      margin-top: 30px;
-      background: rgba(0,0,0,0.2);
-      padding: 15px;
-      border-radius: 15px;
-    }
-    .contact a { color: #FFD700; text-decoration: none; font-weight: bold; }
+    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #FFA500, #FF8C00); color: white; text-align: center; }
+    .container { padding: 20px; max-width: 600px; margin: auto; }
+    .logo { width: 150px; height: 150px; border-radius: 50%; border: 5px solid white; object-fit: cover; }
+    .info { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 15px; margin: 20px 0; }
+    .card { background: white; color: black; padding: 20px; border-radius: 15px; margin: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    audio { width: 100%; margin: 10px 0; }
+    .btn-pi { background: linear-gradient(90deg, #00ff88, #00cc66); border: none; padding: 15px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; color: black; cursor: pointer; margin-top: 10px; }
   </style>
+
 </head>
 <body>
   <div class="container">
-
+    <img src="https://via.placeholder.com/150" alt="DJ DAMELO" class="logo">
     <h1>DJ DAMELO</h1>
-    <p class="subtitle">Artiste - Producteur - DJ Officiel 🇹🇬🇬🇭</p>
+    <div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
     
-    <img src="photo.jpg" alt="DJ Damelo" class="profile-img">
-
-    <div class="bio">
-      <p>Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</p>
-    </div>
-
     <h2>🎵 Mes Derniers Sons</h2>
 
     <!-- SON 1 -->
-<div class="card">
-  <h3>1. Riche ou Pauvre</h3>
-  
-  <!-- TU COLLES ICI 👇 -->
-  <audio controlsList="nodownload">
-    <source src="music/riche-ou-pauvre.mp3" type="audio/mpeg">
-  </audio>
+    <div class="card">
+      <h3>1. Riche ou Pauvre</h3>
+      <audio controls>
+        <source src="music/riche-ou-pauvre.mp3" type="audio/mpeg">
+      </audio>
+      <button onclick="payerEtTelecharger('music/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
+    </div>
 
-  <button onclick="payerEtTelecharger('music/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">
-    Télécharger pour 1 Pi
-  </button>
-  <!-- JUSQUE ICI 👆 -->
+    <!-- SON 2 -->
+    <div class="card">
+      <h3>2. Petit Damelo - Coupe Décalé</h3>
+      <audio controls>
+        <source src="music/coupe-decale.mp3" type="audio/mpeg">
+      </audio>
+      <button onclick="payerEtTelecharger('music/coupe-decale.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
+    </div>
 
-</div>
-
-<!-- SON 2 -->
-<div class="card">
-  <h3>2. Petit Damelo - Coupe Décalé</h3>
-  
-  <!-- TU COLLES ICI AUSSI 👇 -->
-  <audio controlsList="nodownload">
-    <source src="music/coupe-decale.mp3" type="audio/mpeg">
-  </audio>
-
+  </div>
   <button onclick="p
 
     <h2>📱 Suivez-moi partout</h2>
@@ -150,64 +70,40 @@
   </div>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
-  // 1. Initialiser Pi
-  Pi.init({ version: "2.0", sandbox: false });
+  <script>
+    Pi.init({ version: "2.0", sandbox: false });
 
-  // 2. Bloquer le clic droit et le téléchargement direct
-  document.addEventListener('contextmenu', e => e.preventDefault());
-
-  async function payerEtTelecharger(fichier, nomSon) {
-    // Vérifier si on est dans Pi Browser
-    if(!window.Pi) {
-      alert("Ouvre ce site dans Pi Browser pour payer avec Pi");
-      return;
+    async function payerEtTelecharger(fichier, nomSon) {
+      if(!window.Pi) { alert("⚠️ Ouvre ce site dans Pi Browser pour payer avec Pi"); return; }
+      try {
+        await Pi.authenticate(['payments', 'username']);
+        Pi.createPayment({
+          amount: 1,
+          memo: "Achat: " + nomSon + " - DJ DAMELO",
+          metadata: { son: nomSon, fichier: fichier }
+        }, {
+          onReadyForServerApproval: async function(paymentId) {
+            await fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
+          },
+          onReadyForServerCompletion: async function(paymentId, txid) {
+            const res = await fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
+            const data = await res.json();
+            if(data.status === "success") {
+              let link = document.createElement('a');
+              link.href = fichier;
+              link.download = nomSon + ".mp3";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              alert("✅ Paiement reçu ! Téléchargement lancé 🙏 Merci pour ton soutien");
+            }
+          },
+          onCancel: function(paymentId) { alert("Paiement annulé."); },
+          onError: function(error) { alert("Erreur Pi: " + error); }
+        });
+      } catch(err) { alert("Erreur connexion Pi: " + err); }
     }
-
-    try {
-      await Pi.authenticate(['payments', 'username']);
-
-      Pi.createPayment({
-        amount: 1,
-        memo: "Achat: " + nomSon + " - DJ DAMELO",
-        metadata: { son: nomSon, fichier: fichier }
-      }, {
-        onReadyForServerApproval: async function(paymentId) {
-          await fetch('/api/approve', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ paymentId })
-          });
-        },
-        onReadyForServerCompletion: async function(paymentId, txid) {
-          const res = await fetch('/api/complete', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ paymentId, txid })
-          });
-          
-          const data = await res.json();
-
-          // SEULEMENT ICI on force le téléchargement
-          if(data.status === "success") {
-            let link = document.createElement('a');
-            link.href = fichier;
-            link.download = nomSon + ".mp3";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            alert("✅ Paiement reçu ! Téléchargement lancé 🙏");
-          }
-        },
-        onCancel: function(paymentId) { alert("Paiement annulé."); },
-        onError: function(error) { alert("Erreur Pi: " + error); }
-      });
-
-    } catch(err) {
-      alert("Erreur connexion Pi: " + err);
-    }
-  }
-</script>
+  </script>
 
 </body>
 </html>
