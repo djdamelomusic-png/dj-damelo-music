@@ -7,7 +7,7 @@
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #FFA500, #FF8C00); color: white; text-align: center; }
     .container { padding: 20px; max-width: 600px; margin: auto; }
-    .logo { width: 150px; height: 150px; border-radius: 50%; border: 5px solid white; object-fit: cover; }
+    .logo { width: 150px; height: 150px; border-radius: 50%; border: 5px solid white; object-fit: cover; background: white; }
     .info { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 15px; margin: 20px 0; }
     .card { background: white; color: black; padding: 20px; border-radius: 15px; margin: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     audio { width: 100%; margin: 10px 0; }
@@ -16,7 +16,8 @@
 </head>
 <body>
   <div class="container">
-    <img src="https://via.placeholder.com/150" alt="DJ DAMELO" class="logo">
+    <!-- CORRECTION 1: Mets ta photo ici. Upload la photo dans /public et renomme la damelo.jpg -->
+    <img src="/damelo.jpg" alt="DJ DAMELO" class="logo">
     <h1>DJ DAMELO</h1>
     <div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
     <h2>🎵 Mes Derniers Sons</h2>
@@ -25,19 +26,20 @@
     <div class="card">
       <h3>1. Riche ou Pauvre</h3>
       <audio controls>
-        <source src="music/riche-ou-pauvre.mp3" type="audio/mpeg">
+        <!-- CORRECTION 2: Mets tes mp3 dans /public/music/ -->
+        <source src="/music/riche-ou-pauvre.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
       </audio>
-      <button onclick="payerEtTelecharger('music/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
+      <button onclick="payerEtTelecharger('/music/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
     </div>
 
     <!-- SON 2 -->
     <div class="card">
       <h3>2. Petit Damelo - Coupe Décalé</h3>
       <audio controls>
-        <source src="music/coupe-decale.mp3" type="audio/mpeg">
+        <source src="/music/coupe-decale.mp3" type="audio/mpeg">
       </audio>
-      <button onclick="payerEtTelecharger('music/
-coupe-decale.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
+      <button onclick="payerEtTelecharger('/music/coupe-decale.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
     </div>
 
   </div>
@@ -68,7 +70,7 @@ coupe-decale.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharge
 
   </div>
 
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <script>
     Pi.init({ version: "2.0", sandbox: false });
 
