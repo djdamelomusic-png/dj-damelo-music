@@ -16,7 +16,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Photo à la racine -->
     <img src="/damelo.jpg" alt="DJ DAMELO" class="logo">
     <h1>DJ DAMELO</h1>
     <div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
@@ -25,8 +24,8 @@
     <!-- SON 1 -->
     <div class="card">
       <h3>1. Riche ou Pauvre</h3>
-      <audio controls>
-        <!-- Le / devant est important -->
+      <!-- J'AI JUSTE AJOUTÉ controlsList="nodownload" ICI -->
+      <audio controls controlsList="nodownload">
         <source src="/riche-ou-pauvre.mp3" type="audio/mpeg">
       </audio>
       <button onclick="payerEtTelecharger('/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
@@ -35,36 +34,11 @@
     <!-- SON 2 -->
     <div class="card">
       <h3>2. Petit Damelo</h3>
-      <audio controls>
-        <source src="/petit-damelo.mp3" type="audio/mpeg">
+      <!-- ET ICI AUSSI -->
+      <audio controls controlsList="nodownload">
+        <source src="/coupe-decale.mp3" type="audio/mpeg">
       </audio>
-      <button onclick="payerEtTelecharger('/petit-damelo.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
-    </div>
-
-  </div>
-  <button onclick="p
-
-    <h2>📱 Suivez-moi partout</h2>
-    <div class="social-links">
-      <a href="https://youtube.com/@dj-damelo?si=FNKO22RfBB6CczMn" target="_blank">▶️ YouTube</a>
-      <a href="https://open.spotify.com/user/31gwxocjetwo6psikmpge57cmpw4?si=GTRme8q6QWev1idi1k_w5A" target="_blank">🎵 Spotify</a>
-      <a href="https://on.soundcloud.com/J9QWLMdqzJxhputfo5" target="_blank">☁️ SoundCloud</a>
-      <a href="https://www.boomplay.com/shareUser/113931343?share_platform=an&srList=ANDROID&srModel=byWH&share_channel=whatsapp&share_content=user" target="_blank">💿 Boomplay</a>
-      <a href="https://vm.tiktok.com/ZS96T3CcfbdEE-ym6vk/" target="_blank">♪ TikTok</a>
-      <a href="https://www.instagram.com/dj_damelo?igsh=a2Zzejd4b2xpYjZz" target="_blank">📷 Insta</a>
-      <a href="https://www.facebook.com/share/18yyeS1TaS/" target="_blank">f Facebook</a>
-      <a href="https://x.com/Dj_Damelo" target="_blank">𝕏 X</a>
-      <a href="https://rapfame.app/user/dj_damelo" target="_blank">🎤 Rapfame</a>
-      <a href="https://t.me/+233242668880" target="_blank">💬 Telegram</a>
-      <a href="https://www.linkedin.com/in/bro-elisha-768b38231?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">💼 LinkedIn</a>
-      <a href="https://maps.app.goo.gl/ERrLjFgSFWdrf28T8" target="_blank">📍 Google</a>
-    </div>
-
-    <div class="contact">
-      <h2>📞 Contact / Booking</h2>
-      <p>WhatsApp 1: <a href="https://wa.me/233242668880" target="_blank">+233 24 266 8880</a></p>
-      <p>WhatsApp 2: <a href="https://wa.me/22896275873" target="_blank">+228 96 27 58 73</a></p>
-      <p>Email: dj.damelo.music@gmail.com</p>
+      <button onclick="payerEtTelecharger('/coupe-decale.mp3', 'Petit Damelo')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
     </div>
 
   </div>
@@ -104,6 +78,5 @@
       } catch(err) { alert("Erreur connexion Pi: " + err); }
     }
   </script>
-
 </body>
 </html>
