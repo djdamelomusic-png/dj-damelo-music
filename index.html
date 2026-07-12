@@ -89,58 +89,43 @@
       <p>Email: dj.damelo.music@gmail.com</p>
     </div>
 
-  <script>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
   Pi.init({ version: "2.0", sandbox: false });
 
-  async function payerEtTelecharger(fichier, nomSon) {
+  function payerEtTelecharger(fichier, nomSon) {
+    
+    alert("1. Est-ce que Pi existe ? " + typeof window.Pi); // DEBUG
+    
     if(!window.Pi) { 
-      alert("⚠️ Ouvre ce site DANS Pi Browser pour payer avec Pi"); 
+      alert("❌ ERREUR: Pi SDK non chargé. Recharge la page dans Pi Browser"); 
       return; 
     }
 
-    try {
-      await Pi.authenticate(['username', 'payments'], function(payment) {});
+    alert("2. OK Pi est là. On se connecte...");
+
+    Pi.authenticate(['username', 'payments'], function(auth) {
+      alert("3. Connecté: " + auth.username);
 
       Pi.createPayment({
         amount: 1,
         memo: "Achat: " + nomSon + " - DJ DAMELO",
         metadata: { son: nomSon, fichier: fichier }
       }, {
-        
         onReadyForServerApproval: async function(paymentId) {
-          await fetch('/api/approve', { 
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({ paymentId }) 
-          });
+          alert("4. Approval: " + paymentId);
+          await fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
         },
-
         onReadyForServerCompletion: async function(paymentId, txid) {
-          const res = await fetch('/api/complete', { 
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({ paymentId, txid }) 
-          });
-          const data = await res.json();
-          
-          if(data.status === "success") { // <-- Si le serveur dit success
-            let link = document.createElement('a');
-            link.href = fichier;
-            link.download = nomSon + ".mp3";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            alert("✅ Paiement reçu ! Téléchargement lancé 🙏 Merci pour ton soutien DJ DAMELO");
-          }
+          alert("5. Completion: " + paymentId);
+          await fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
+          alert("✅ Téléchargement !");
+          window.location.href = fichier;
         },
-
-        onCancel: function(paymentId) { alert("Paiement annulé."); },
-        onError: function(error) { alert("Erreur Pi: " + error); }
+        onCancel: function() { alert("Annulé"); },
+        onError: function(err) { alert("Erreur: " + err); }
       });
-
-    } catch(err) { 
-      alert("Erreur connexion Pi: " + err); 
-    }
+    });
   }
 </script>
 
