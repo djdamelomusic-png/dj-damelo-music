@@ -97,23 +97,32 @@
 
     <h2>🎵 Mes Derniers Sons</h2>
 
-    <div class="card">
-      <h3>1. Riche ou Pauvre</h3>
-      <p>Écoute gratuite - Téléchargement: 1 Pi</p>
-      <audio controls preload="auto">
-        <source src="riche-ou-pauvre.mp3" type="audio/mpeg">
-      </audio>
-      <button onclick="payerEtTelecharger('riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn">Télécharger pour 1 Pi</button>
-    </div>
+    <!-- SON 1 -->
+<div class="card">
+  <h3>1. Riche ou Pauvre</h3>
+  
+  <!-- TU COLLES ICI 👇 -->
+  <audio controlsList="nodownload">
+    <source src="music/riche-ou-pauvre.mp3" type="audio/mpeg">
+  </audio>
 
-    <div class="card">
-      <h3>2. Petit Damelo - Coupe Décalé</h3>
-      <p>Écoute gratuite - Téléchargement: 1 Pi</p>
-      <audio controls preload="auto">
-        <source src="petit-damelo.mp3" type="audio/mpeg">
-      </audio>
-      <button onclick="payerEtTelecharger('petit-damelo.mp3', 'Petit Damelo')" class="btn">Télécharger pour 1 Pi</button>
-    </div>
+  <button onclick="payerEtTelecharger('music/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">
+    Télécharger pour 1 Pi
+  </button>
+  <!-- JUSQUE ICI 👆 -->
+
+</div>
+
+<!-- SON 2 -->
+<div class="card">
+  <h3>2. Petit Damelo - Coupe Décalé</h3>
+  
+  <!-- TU COLLES ICI AUSSI 👇 -->
+  <audio controlsList="nodownload">
+    <source src="music/coupe-decale.mp3" type="audio/mpeg">
+  </audio>
+
+  <button onclick="p
 
     <h2>📱 Suivez-moi partout</h2>
     <div class="social-links">
@@ -142,23 +151,34 @@
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
+  // 1. Initialiser Pi
   Pi.init({ version: "2.0", sandbox: false });
+
+  // 2. Bloquer le clic droit et le téléchargement direct
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  async function payerEtTelecharger(fichier, nomSon) {
+    // Vérifier si on est dans Pi Browser
+    if(!window.Pi) {
+      alert("Ouvre ce site dans Pi Browser pour payer avec Pi");
+      return;
+    }
+
+    try {
+      await Pi.authenticate(['payments', 'username']);
 
       Pi.createPayment({
         amount: 1,
         memo: "Achat: " + nomSon + " - DJ DAMELO",
         metadata: { son: nomSon, fichier: fichier }
       }, {
-        // 1. Pi demande approbation à ton serveur
         onReadyForServerApproval: async function(paymentId) {
-          const res = await fetch('/api/approve', {
+          await fetch('/api/approve', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ paymentId })
           });
         },
-
-        // 2. Pi dit que le paiement est FINI et sur la blockchain
         onReadyForServerCompletion: async function(paymentId, txid) {
           const res = await fetch('/api/complete', {
             method: 'POST',
@@ -168,20 +188,19 @@
           
           const data = await res.json();
 
-          // SEULEMENT ICI on télécharge
+          // SEULEMENT ICI on force le téléchargement
           if(data.status === "success") {
             let link = document.createElement('a');
             link.href = fichier;
             link.download = nomSon + ".mp3";
+            document.body.appendChild(link);
             link.click();
-            alert("✅ Paiement reçu ! '" + nomSon + "' téléchargé. Merci pour votre soutien 🙏");
-          } else {
-            alert("Erreur: Le paiement n'a pas été confirmé");
+            document.body.removeChild(link);
+            alert("✅ Paiement reçu ! Téléchargement lancé 🙏");
           }
         },
-        
         onCancel: function(paymentId) { alert("Paiement annulé."); },
-        onError: function(error) { alert("Erreur: " + error); }
+        onError: function(error) { alert("Erreur Pi: " + error); }
       });
 
     } catch(err) {
