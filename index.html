@@ -49,7 +49,8 @@
 <!-- 2. SON 1 : RCHE OU PAUVRE -->
 <div class="carte-son">
   <h3>🎵 Riche ou Pauvre</h3>
-  
+
+  <audio controls controlslist="nodownload">
   <!-- LECTURE GRATUITE -->
   <audio controls style="width: 100%;">
     <source src="/riche-ou-pauvre.mp3" type="audio/mpeg">
@@ -57,7 +58,7 @@
   </audio>
 
   <!-- TÉLÉCHARGEMENT PAYANT -->
-  <button class="no-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
+  <button class="btn-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
     🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
   </button>
   <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
@@ -69,12 +70,13 @@
   
   <!-- LECTURE GRATUITE -->
   <audio controls style="width: 100%;">
+    <audio controls controlslist="nodownload">
     <source src="/petit-damelo.mp3" type="audio/mpeg">
     Ton navigateur ne supporte pas l'audio.
   </audio>
 
   <!-- TÉLÉCHARGEMENT PAYANT -->
-  <button class="no-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
+  <button class="btn-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
     🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
   </button>
   <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
