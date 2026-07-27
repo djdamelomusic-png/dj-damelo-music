@@ -89,39 +89,82 @@
       <p>Email: dj.damelo.music@gmail.com</p>
     </div>
 
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <!-- 1. LE SDK PI -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
 Pi.init({ version: "2.0", sandbox: false });
 
-async function payerEtTelecharger(fichier, nomSon) {
-  if(!window.Pi) { alert("Ouvre ce site DANS Pi Browser"); return; }
+async function lancerPaiement(fichier, nom) {
+  if(!window.Pi) { 
+    alert("⚠️ Ouvre ce site DANS Pi Browser pour payer"); 
+    return; 
+  }
 
   try {
-    // 1. AUTHENTIFICATION OBLIGATOIRE
     await Pi.authenticate(['username', 'payments']);
 
-    // 2. LANCEMENT PAIEMENT TEST 0.01 Pi
     Pi.createPayment({
-      amount: 0.01,
-      memo: "TEST VALIDATION - " + nomSon,
-      metadata: { son: nomSon, fichier: fichier }
+      amount: 1,
+      memo: "Téléchargement - " + nom,
+      metadata: { son: nom }
     }, {
-      onReadyForServerApproval: function(paymentId) {
+      onReadyForServerApproval: (paymentId) => {
         fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
       },
-      onReadyForServerCompletion: function(paymentId, txid) {
+      onReadyForServerCompletion: (paymentId, txid) => {
         fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
-        alert("✅ Paiement test OK !");
+        alert("✅ Merci ! Téléchargement de " + nom + " en cours...");
         window.location.href = fichier;
       },
-      onCancel: function() { alert("Annulé"); },
-      onError: function(error) { alert("Erreur Pi: " + error); }
+      onCancel: () => alert("Paiement annulé"),
+      onError: (error) => alert("Erreur Pi: " + error),
     });
   } catch(err) {
     alert("Erreur Auth: " + err);
   }
 }
 </script>
+
+<style>
+.carte-son { border: 1px solid #333; padding: 20px; border-radius: 12px; margin: 20px 0; background: #111; color: white; }
+.btn-download { padding:12px 25px; background:gold; color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px; }
+.btn-download:hover { background: #ffd700; }
+.cadenas { font-size: 12px; color: #aaa; margin-top: 8px; }
+</style>
+
+<!-- 2. SON 1 : RCHE OU PAUVRE -->
+<div class="carte-son">
+  <h3>🎵 Riche ou Pauvre</h3>
+  
+  <!-- LECTURE GRATUITE -->
+  <audio controls style="width: 100%;">
+    <source src="/musiques/rche-ou-pauvre.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l'audio.
+  </audio>
+
+  <!-- TÉLÉCHARGEMENT PAYANT -->
+  <button class="btn-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
+    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
+  </button>
+  <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
+</div>
+
+<!-- 3. SON 2 : PETIT DAMELO -->
+<div class="carte-son">
+  <h3>🎵 Petit Damelo</h3>
+  
+  <!-- LECTURE GRATUITE -->
+  <audio controls style="width: 100%;">
+    <source src="/musiques/petit-damelo.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l'audio.
+  </audio>
+
+  <!-- TÉLÉCHARGEMENT PAYANT -->
+  <button class="btn-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
+    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
+  </button>
+  <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
+</div>
 
 </body>
 </html>
