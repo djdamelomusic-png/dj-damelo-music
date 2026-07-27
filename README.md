@@ -20,8 +20,7 @@ Tous les paiements sont traités en Testnet pour le moment.
 
 ## Configuration Backend
 Variables d'environnement requises sur Vercel :
-
-PI_API_KEY=sk_pi_wallet
+PI_API_KEY=
 ## Endpoints API
 - POST /api/approve : Approuve un paiement Pi
 - POST /api/complete : Finalise un paiement Pi
