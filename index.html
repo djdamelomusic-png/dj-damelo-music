@@ -39,31 +39,47 @@
     <div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
     <h2>🎵 Mes Derniers Sons</h2>
 
-    <!-- SON 1 -->
-<div class="card">
-  <h3>1. Riche ou Pauvre</h3>
+   <style>
+.carte-son { border: 1px solid #333; padding: 20px; border-radius: 12px; margin: 20px 0; background: #111; color: white; }
+.btn-download { padding:12px 25px; background:gold; color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px; }
+.btn-download:hover { background: #ffd700; }
+.cadenas { font-size: 12px; color: #aaa; margin-top: 8px; }
+</style>
+
+<!-- 2. SON 1 : RCHE OU PAUVRE -->
+<div class="carte-son">
+  <h3>🎵 Riche ou Pauvre</h3>
   
-  <audio controls controlsList="nodownload">
+  <!-- LECTURE GRATUITE -->
+  <audio controls style="width: 100%;">
     <source src="/riche-ou-pauvre.mp3" type="audio/mpeg">
-    Votre navigateur ne supporte pas l'audio.
+    Ton navigateur ne supporte pas l'audio.
   </audio>
 
-  <button onclick="payerEtTelecharger('/riche-ou-pauvre.mp3', 'Riche ou Pauvre')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
+  <!-- TÉLÉCHARGEMENT PAYANT -->
+  <button class="btn-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
+    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
+  </button>
+  <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
 </div>
 
-    <!-- SON 2 -->
-    <div class="card">
-      <h3>2. Petit Damelo</h3>
-      
-         <audio controls controlslist="nodownload">
-        <source src="/petit-damelo.mp3" type="audio/mpeg">
-           votre navigateur ne supporte pas l'audio
-      </audio>
-      
-      <button onclick="payerEtTelecharger('/petit-damelo.mp3', 'Petit Damelo - Coupe Décalé')" class="btn-pi">Télécharger en HQ pour 1 Pi</button>
-    </div>
+<!-- 3. SON 2 : PETIT DAMELO -->
+<div class="carte-son">
+  <h3>🎵 Petit Damelo</h3>
+  
+  <!-- LECTURE GRATUITE -->
+  <audio controls style="width: 100%;">
+    <source src="/petit-damelo.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l'audio.
+  </audio>
 
-  </div>
+  <!-- TÉLÉCHARGEMENT PAYANT -->
+  <button class="btn-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
+    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
+  </button>
+  <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
+</div>
+   
   <button onclick="p
 
     <h2>📱 Suivez-moi partout</h2>
@@ -124,47 +140,6 @@ async function lancerPaiement(fichier, nom) {
   }
 }
 </script>
-
-<style>
-.carte-son { border: 1px solid #333; padding: 20px; border-radius: 12px; margin: 20px 0; background: #111; color: white; }
-.btn-download { padding:12px 25px; background:gold; color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px; }
-.btn-download:hover { background: #ffd700; }
-.cadenas { font-size: 12px; color: #aaa; margin-top: 8px; }
-</style>
-
-<!-- 2. SON 1 : RCHE OU PAUVRE -->
-<div class="carte-son">
-  <h3>🎵 Riche ou Pauvre</h3>
-  
-  <!-- LECTURE GRATUITE -->
-  <audio controls style="width: 100%;">
-    <source src="/musiques/rche-ou-pauvre.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
-  </audio>
-
-  <!-- TÉLÉCHARGEMENT PAYANT -->
-  <button class="btn-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
-    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
-  </button>
-  <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
-</div>
-
-<!-- 3. SON 2 : PETIT DAMELO -->
-<div class="carte-son">
-  <h3>🎵 Petit Damelo</h3>
-  
-  <!-- LECTURE GRATUITE -->
-  <audio controls style="width: 100%;">
-    <source src="/musiques/petit-damelo.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
-  </audio>
-
-  <!-- TÉLÉCHARGEMENT PAYANT -->
-  <button class="btn-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
-    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
-  </button>
-  <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
-</div>
 
 </body>
 </html>
