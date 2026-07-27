@@ -164,43 +164,28 @@ Pi.init({ version: "2.0", sandbox: true }); // 1. TRUE pour tester
 
 async function lancerPaiement(fichier, nom) {
   if(!window.Pi) {
-    alert("⚠️ Ouvre ce site DANS Pi Browser pour payer");
+    alert("Ouvre dans Pi Browser");
     return;
   }
 
-  try {
-    // 2. On connecte d'abord
-    await Pi.authenticate(['username', 'payments']);
+  await Pi.authenticate(['username', 'payments']);
 
-    // 3. Ensuite on ouvre le Wallet
-    Pi.createPayment({
-      amount: 1,
-      memo: "Téléchargement - " + nom,
-      metadata: { son: nom, fichier: fichier }
-    }, {
-      onReadyForServerApproval: async (paymentId) => {
-        await fetch('/api/approve', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ paymentId })
-        });
-      },
-      onReadyForServerCompletion: async (paymentId, txid) => {
-        await fetch('/api/complete', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ paymentId, txid })
-        });
-        alert("✅ Paiement validé ! Téléchargement de " + nom + " en cours...");
-        window.location.href = fichier; // lance le download
-      },
-      onCancel: () => alert("Paiement annulé"),
-      onError: (error) => alert("Erreur: " + error)
-    });
-
-  } catch(err) {
-    alert("Erreur: " + err);
-  }
+  Pi.createPayment({
+    amount: 1,
+    memo: "Test - " + nom,
+    metadata: { son: nom }
+  }, {
+    onReadyForServerApproval: (paymentId) => {
+      console.log("Approuvé: ", paymentId);
+      // On auto-approuve pour test
+    },
+    onReadyForServerCompletion: (paymentId, txid) => {
+      alert("✅ Paiement Test Réussi !");
+      window.location.href = fichier;
+    },
+    onCancel: () => alert("Paiement annulé"),
+    onError: (error) => alert("Erreur: " + error)
+  });
 }
 </script>
 
