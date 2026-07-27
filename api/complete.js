@@ -13,8 +13,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({ txid })
     });
-
-    if (!response.ok) throw new Error("Pi a refusé la validation");
+if (!response.ok) throw new Error("Pi a refusé la validation");
     
     res.status(200).json({ status: "completed" });
   } catch (error) {
