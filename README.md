@@ -20,3 +20,19 @@ Tous les paiements sont traités en Testnet pour le moment.
 
 ## Configuration Backend
 Variables d'environnement requises sur Vercel :
+
+PI_API_KEY=sk_pi_mon_wallet_secret
+## Endpoints API
+- POST /api/approve : Approuve un paiement Pi
+- POST /api/complete : Finalise un paiement Pi
+
+## Wallet de l'App
+Testnet: GDG7D...TZYS
+
+## Liens Légaux
+- Terms: /terms.html
+- Privacy: /privacy.html  
+- Contact: /contact.html
+
+## Développé par
+DJ Damelo Music Team
