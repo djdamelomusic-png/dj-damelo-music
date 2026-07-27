@@ -160,56 +160,46 @@ document.addEventListener('DOMContentLoaded', () => {
   <!-- 1. LE SDK PI -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-Pi.init({ version: "2.0", sandbox: false });
+Pi.init({ version: "2.0", sandbox: true }); // 1. TRUE pour tester
 
 async function lancerPaiement(fichier, nom) {
-  if(!window.Pi) { 
-    alert("⚠️ Ouvre ce site DANS Pi Browser pour payer"); 
-    return; 
+  if(!window.Pi) {
+    alert("⚠️ Ouvre ce site DANS Pi Browser pour payer");
+    return;
   }
 
   try {
+    // 2. On connecte d'abord
     await Pi.authenticate(['username', 'payments']);
 
+    // 3. Ensuite on ouvre le Wallet
     Pi.createPayment({
       amount: 1,
       memo: "Téléchargement - " + nom,
-      metadata: { son: nom, fichier: fichier } // j'ai ajouté fichier ici
+      metadata: { son: nom, fichier: fichier }
     }, {
       onReadyForServerApproval: async (paymentId) => {
-        try {
-          const res = await fetch('/api/approve', { 
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({ paymentId }) 
-          });
-          if(!res.ok) throw new Error("Erreur approbation");
-        } catch(err) {
-          alert("Erreur serveur: " + err);
-        }
+        await fetch('/api/approve', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ paymentId })
+        });
       },
       onReadyForServerCompletion: async (paymentId, txid) => {
-        try {
-          const res = await fetch('/api/complete', { 
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({ paymentId, txid }) 
-          });
-          if(res.ok){
-            alert("✅ Paiement validé ! Téléchargement de " + nom + " en cours...");
-            window.location.href = fichier;
-          } else {
-            alert("Erreur: Paiement non validé par le serveur");
-          }
-        } catch(err) {
-          alert("Erreur serveur: " + err);
-        }
+        await fetch('/api/complete', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ paymentId, txid })
+        });
+        alert("✅ Paiement validé ! Téléchargement de " + nom + " en cours...");
+        window.location.href = fichier; // lance le download
       },
       onCancel: () => alert("Paiement annulé"),
-      onError: (error) => alert("Erreur Pi: " + error),
+      onError: (error) => alert("Erreur: " + error)
     });
+
   } catch(err) {
-    alert("Erreur Auth: " + err);
+    alert("Erreur: " + err);
   }
 }
 </script>
