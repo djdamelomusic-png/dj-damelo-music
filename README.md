@@ -21,13 +21,13 @@ Tous les paiements sont traités en Testnet pour le moment.
 ## Configuration Backend
 Variables d'environnement requises sur Vercel :
 
-PI_API_KEY=sk_pi_mon_wallet_secret
+PI_API_KEY=sk_pi_wallet
 ## Endpoints API
 - POST /api/approve : Approuve un paiement Pi
 - POST /api/complete : Finalise un paiement Pi
 
 ## Wallet de l'App
-Testnet: GDG7D...TZYS
+Testnet: GC47WPBVGCXOHOBVAMTJP3HLGQKGOJ6BEKS63TNX7NAXOGHSN3DS7KP4
 
 ## Liens Légaux
 - Terms: /terms.html
