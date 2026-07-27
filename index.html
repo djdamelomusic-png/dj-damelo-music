@@ -174,15 +174,36 @@ async function lancerPaiement(fichier, nom) {
     Pi.createPayment({
       amount: 1,
       memo: "Téléchargement - " + nom,
-      metadata: { son: nom }
+      metadata: { son: nom, fichier: fichier } // j'ai ajouté fichier ici
     }, {
-      onReadyForServerApproval: (paymentId) => {
-        fetch('/api/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId }) });
+      onReadyForServerApproval: async (paymentId) => {
+        try {
+          const res = await fetch('/api/approve', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({ paymentId }) 
+          });
+          if(!res.ok) throw new Error("Erreur approbation");
+        } catch(err) {
+          alert("Erreur serveur: " + err);
+        }
       },
-      onReadyForServerCompletion: (paymentId, txid) => {
-        fetch('/api/complete', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paymentId, txid }) });
-        alert("✅ Merci ! Téléchargement de " + nom + " en cours...");
-        window.location.href = fichier;
+      onReadyForServerCompletion: async (paymentId, txid) => {
+        try {
+          const res = await fetch('/api/complete', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({ paymentId, txid }) 
+          });
+          if(res.ok){
+            alert("✅ Paiement validé ! Téléchargement de " + nom + " en cours...");
+            window.location.href = fichier;
+          } else {
+            alert("Erreur: Paiement non validé par le serveur");
+          }
+        } catch(err) {
+          alert("Erreur serveur: " + err);
+        }
       },
       onCancel: () => alert("Paiement annulé"),
       onError: (error) => alert("Erreur Pi: " + error),
