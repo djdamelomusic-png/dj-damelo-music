@@ -34,39 +34,8 @@
       <p>DJ Officiel <span class="flags">🇹🇬 🇬🇭</span></p>
     </div>
 
-<body>
-  
-    <div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
-<h2>🎵 Mes Derniers Sons</h2>
-
 <style>
-/* VERT CLAIRE */
-.carte-son { 
-  border: 2px solid #27ae60; 
-  padding: 20px; 
-  border-radius: 12px; 
-  margin: 20px 0; 
-  background: #d5f5e3; /* vert claire */
-  color: #000; /* texte noir */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.carte-son h3 { color: #0e6b3a; margin-top: 0; }
-
-.btn-download { 
-  padding:12px 25px; 
-  background:gold; 
-  color:#000; 
-  border:none; 
-  border-radius:8px; 
-  font-weight:bold; 
-  cursor:pointer; 
-  margin-top:10px; 
-  width: 100%;
-  font-size: 16px;
-}
-.btn-download:hover { background: #ffd700; transform: scale(1.02); }
-
-.cadenas { font-size: 12px; color: #444; margin-top: 8px; text-align: center; }
+body { background: #ff8c00; font-family: Arial, sans-serif; padding: 10px; } /* FOND ORANGE */
 
 .info {
   background: #d5f5e3;
@@ -78,54 +47,85 @@
   color: #0e6b3a;
   margin-bottom: 20px;
 }
+
+h2 { color: white; text-align: center; }
+
+.carte-son { 
+  border: 2px solid #27ae60; 
+  padding: 20px; 
+  border-radius: 12px; 
+  margin: 20px 0; 
+  background: #d5f5e3; /* VERT CLAIRE */
+  color: #000; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.carte-son h3 { color: #0e6b3a; margin-top: 0; text-align: center; }
+
+/* BOUTON VERT DÉGRADÉ */
+.btn-download { 
+  padding:15px; 
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); /* DÉGRADÉ VERT */
+  color:#fff; /* texte blanc */
+  border:none; 
+  border-radius:8px; 
+  font-weight:bold; 
+  cursor:pointer; 
+  margin-top:10px; 
+  width: 100%;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+  transition: all 0.3s ease;
+}
+.btn-download:hover { 
+  background: linear-gradient(135deg, #219150 0%, #27ae60 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(46, 204, 113, 0.4);
+}
+
+.cadenas { font-size: 12px; color: #444; margin-top: 8px; text-align: center; }
+
+audio { border-radius: 50px; }
 </style>
 
 <script>
-// 1. BLOQUER LE RECHARGEMENT DE LA PAGE
+// BLOQUER LE RECHARGEMENT
 window.addEventListener('beforeunload', function (e) {
   e.preventDefault();
-  e.returnValue = 'Tu veux vraiment quitter ? Le paiement sera annulé.';
+  e.returnValue = '';
 });
 
-// 2. BLOQUER LE TELECHARGEMENT DIRECT SUR LE LECTEUR
+// BLOQUER TELECHARGEMENT DIRECT
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('audio').forEach(audio => {
-    audio.setAttribute('controlsList', 'nodownload noplaybackrate'); // enlève "Télécharger"
-    audio.oncontextmenu = () => false; // bloque clic droit
+    audio.setAttribute('controlsList', 'nodownload noplaybackrate');
+    audio.oncontextmenu = () => false;
   });
 });
 </script>
 
-<!-- 2. SON 1 : RCHE OU PAUVRE -->
+<div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
+<h2>🎵 Mes Derniers Sons</h2>
+
+<!-- SON 1 : RCHE OU PAUVRE -->
 <div class="carte-son">
   <h3>🎵 Riche ou Pauvre</h3>
-
-  <!-- LECTURE GRATUITE -->
   <audio controls controlsList="nodownload" style="width: 100%;">
     <source src="/riche-ou-pauvre.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
   </audio>
-
-  <!-- TÉLÉCHARGEMENT PAYANT -->
   <button class="btn-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
-    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
+    🔓 TÉLÉCHARGER VERSION COMPLÈTE - 1π
   </button>
   <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
 </div>
 
-<!-- 3. SON 2 : PETIT DAMELO -->
+<!-- SON 2 : PETIT DAMELO -->
 <div class="carte-son">
   <h3>🎵 Petit Damelo</h3>
-  
-  <!-- LECTURE GRATUITE -->
   <audio controlsList="nodownload" style="width: 100%;">
     <source src="/petit-damelo.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
   </audio>
-
-  <!-- TÉLÉCHARGEMENT PAYANT -->
   <button class="btn-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
-    🔓 TÉLÉCHARGER VERSION COMPLETE - 1π
+    🔓 TÉLÉCHARGER VERSION COMPLÈTE - 1π
   </button>
   <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
 </div>
