@@ -207,7 +207,8 @@ onReadyForServerCompletion: function(paymentId, txid) {
   }).then(() => {
     alert("✅ Paiement validé !");
     window.location.href = fichier;
-      },
+  });
+}
       onCancel: function(paymentId) { alert("Paiement annulé"); },
       onError: function(error) { alert("Erreur: " + error.message); }
     });
