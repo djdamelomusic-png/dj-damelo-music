@@ -178,41 +178,45 @@ if(loginBtn) loginBtn.addEventListener('click', loginWithPi);
 
 // Gestion Paiement
 async function lancerPaiement(fichier, nom) {
-  if(!window.Pi) {
-    alert("Ouvre cette app dans Pi Browser pour payer avec Pi");
-    return;
-  }
   try {
-    if(!localStorage.getItem('pi_user')) {
+    if (!localStorage.getItem('pi_user')) {
       await loginWithPi();
     }
+
     await Pi.createPayment({
       amount: 1,
       memo: "DJ DAMELO - " + nom,
       metadata: { song: nom, file: fichier }
     }, {
       onReadyForServerApproval: function(paymentId) {
-  console.log("APPROVE ID:", paymentId);
-  return fetch('/api/approve', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ paymentId: paymentId })
-  }).then(r => r.json());
-},
-onReadyForServerCompletion: function(paymentId, txid) {
-  return fetch('/api/complete', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ paymentId, txid })
-  }).then(() => {
-    alert("✅ Paiement validé !");
-    window.location.href = fichier;
-  });
-}
-      onCancel: function(paymentId) { alert("Paiement annulé"); },
-      onError: function(error) { alert("Erreur: " + error.message); }
+        console.log("APPROVE ID:", paymentId);
+        return fetch('/api/approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId: paymentId })
+        }).then(r => r.json());
+      },
+      onReadyForServerCompletion: function(paymentId, txid) {
+        return fetch('/api/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId, txid })
+        }).then(() => {
+          alert("✅ Paiement validé !");
+          window.location.href = fichier;
+        });
+      },
+      onCancel: function(paymentId) { 
+        alert("Paiement annulé"); 
+      },
+      onError: function(error) { 
+        alert("Erreur: " + error.message); 
+      }
     });
-  } catch(e) { console.log(e); }
+  } catch(e) {
+    console.error(e);
+    alert(e.message);
+  }
 }
 </script>
 </body>
