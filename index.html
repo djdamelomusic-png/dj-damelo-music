@@ -161,20 +161,25 @@ const loginBtn = document.getElementById('pi-login-btn');
 const userDiv = document.getElementById('pi-user');
 
 async function loginWithPi() {
-  try {
-    const scopes = ['username', 'payments'];
-    function onIncompletePaymentFound(payment) { console.log("Paiement incomplet", payment); }
-    const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
-    loginBtn.innerText = "✅ " + auth.user.username;
-    userDiv.innerText = "Bienvenue " + auth.user.username + " !";
-    localStorage.setItem('pi_user', auth.user.username);
-    return auth;
-  } catch (err) {
-    alert("Ouvre cette app dans Pi Browser pour te connecter");
-    console.log(err);
-  }
+  const scopes = ['username', 'payments'];
+  const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
+  localStorage.setItem('pi_user', authResult.user.username);
+  console.log("Connecté:", authResult.user.username);
+  return authResult;
 }
-if(loginBtn) loginBtn.addEventListener('click', loginWithPi);
+
+// Obligatoire pour Pi
+function onIncompletePaymentFound(payment) {
+  console.log("Paiement incomplet trouvé:", payment);
+  return fetch('/api/complete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      paymentId: payment.identifier, 
+      txid: payment.transaction ? payment.transaction.txid : null 
+    })
+  });
+}
 
 // Gestion Paiement
 async function lancerPaiement(fichier, nom) {
