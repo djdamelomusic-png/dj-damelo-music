@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DJ DAMELO MUSIC - 1 Pi</title>
+  <title>DJ DAMELO MUSIC - Official Pi Music Platform</title>
+  <meta name="description" content="Official music platform of DJ DAMELO. Listen for free, unlock HQ downloads with 1 Pi. Afrobeat, Coupe Decale & more.">
+  
+  <!-- PI SDK OBLIGATOIRE -->
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script>
+    Pi.init({ version: "2.0", sandbox: true });
+  </script>
+
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #FFA500, #FF8C00); color: white; text-align: center; }
     .container { padding: 20px; max-width: 600px; margin: auto; }
     
-    /* NOUVEAU STYLE HEADER */
     .header { padding: 10px 0; }
     .header h1 { font-size: 36px; font-weight: 900; margin: 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
     .header p { font-size: 16px; margin: 5px 0; font-weight: 500; }
@@ -19,6 +26,7 @@
     .card { background: white; color: black; padding: 20px; border-radius: 15px; margin: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     audio { width: 100%; margin: 10px 0; }
     .btn-pi { background: linear-gradient(90deg, #00ff88, #00cc66); border: none; padding: 15px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; color: black; cursor: pointer; margin-top: 10px; }
+    .btn-pi-login { background: #6a1b9a; border: 2px solid white; padding: 10px 20px; border-radius: 50px; font-size: 15px; font-weight: bold; color: white; cursor: pointer; margin-top: 10px; }
     .socials { display: flex; justify-content: center; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
     .socials a { background: white; color: #FF8C00; padding: 10px 15px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; }
     .socials a:hover { background: black; color: white; }
@@ -26,68 +34,58 @@
 </head>
 <body>
   <div class="container">
-   <img src="/damelo.jpg" alt="DJ DAMELO" class="logo">
-    <!-- TEXTE EN-DESSUS DU PROFIL -->
+    <img src="/damelo.jpg" alt="DJ DAMELO" class="logo">
+    
+    <!-- HEADER -->
     <div class="header">
       <h1>DJ DAMELO</h1>
       <p>Artiste - Chanteur - Producteur</p>
       <p>DJ Officiel <span class="flags">🇹🇬 🇬🇭</span></p>
-      <p>Connect with Pi</p>
+      
+      <!-- VRAI BOUTON CONNECT WITH PI -->
+      <button id="pi-login-btn" class="btn-pi-login">💜 Connect with Pi</button>
+      <div id="pi-user" style="margin-top:8px; font-size:14px; font-weight:bold;"></div>
+      
+      <!-- Petite phrase en anglais pour le review Pi -->
+      <p style="font-size:13px; opacity:0.9; margin-top:10px;">Official Pi Music Platform - Listen free, unlock HQ with Pi</p>
     </div>
 
-<style>
-body { background: #ff8c00; font-family: Arial, sans-serif; padding: 10px; } /* FOND ORANGE */
-
-.info {
-  background: #d5f5e3;
-  border: 2px solid #27ae60;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: bold;
-  color: #0e6b3a;
-  margin-bottom: 20px;
-}
-
-h2 { color: white; text-align: center; }
-
-.carte-son { 
-  border: 2px solid #27ae60; 
-  padding: 20px; 
-  border-radius: 12px; 
-  margin: 20px 0; 
-  background: #d5f5e3; /* VERT CLAIRE */
-  color: #000; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-.carte-son h3 { color: #0e6b3a; margin-top: 0; text-align: center; }
-
-/* BOUTON VERT DÉGRADÉ */
-.btn-download { 
-  padding:15px; 
-  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); /* DÉGRADÉ VERT */
-  color:#fff; /* texte blanc */
-  border:none; 
-  border-radius:8px; 
-  font-weight:bold; 
-  cursor:pointer; 
-  margin-top:10px; 
-  width: 100%;
-  font-size: 16px;
-  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
-  transition: all 0.3s ease;
-}
-.btn-download:hover { 
-  background: linear-gradient(135deg, #219150 0%, #27ae60 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(46, 204, 113, 0.4);
-}
-
-.cadenas { font-size: 12px; color: #444; margin-top: 8px; text-align: center; }
-
-audio { border-radius: 50px; }
-</style>
-
+    <style>
+      .info {
+        background: #d5f5e3;
+        border: 2px solid #27ae60;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        color: #0e6b3a;
+        margin-bottom: 20px;
+      }
+      .carte-son { 
+        border: 2px solid #27ae60; 
+        padding: 20px; 
+        border-radius: 12px; 
+        margin: 20px 0; 
+        background: #d5f5e3;
+        color: #000; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      }
+      .carte-son h3 { color: #0e6b3a; margin-top: 0; text-align: center; }
+      .btn-download { 
+        padding:15px; 
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        color:#fff;
+        border:none; 
+        border-radius:8px; 
+        font-weight:bold; 
+        cursor:pointer; 
+        margin-top:10px; 
+        width: 100%;
+        font-size: 16px;
+      }
+      .cadenas { font-size: 12px; color: #444; margin-top: 8px; text-align: center; }
+      audio { border-radius: 50px; }
+    </style>
 <script>
 // BLOQUER LE RECHARGEMENT
 window.addEventListener('beforeunload', function (e) {
@@ -104,17 +102,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<div class="info">Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥</div>
-<h4>🎵 Mes Derniers Sons</h2>
+<div class="info">
+  Écoutez gratuitement. Soutenez avec 1 Pi pour télécharger en HQ 🔥<br>
+  <span style="font-size:13px; font-weight:normal;">Listen free. Unlock HQ download with 1 Pi.</span>
+</div>
 
-<!-- SON 1 : RCHE OU PAUVRE -->
+<h2 style="color:white; text-align:center;">🎵 Mes Derniers Sons</h2>
+
+<!-- SON 1 : RICHE OU PAUVRE -->
 <div class="carte-son">
   <h3>🎵 Riche ou Pauvre</h3>
   <audio controls controlsList="nodownload" style="width: 100%;">
     <source src="/riche-ou-pauvre.mp3" type="audio/mpeg">
   </audio>
-  <button class="btn-download" onclick="lancerPaiement('/musiques/rche-ou-pauvre.mp3', 'Riche ou Pauvre')">
-    🔓 Download HQ - 1Pi
+  <button class="btn-download" onclick="lancerPaiement('/musiques/riche-ou-pauvre.mp3', 'Riche ou Pauvre')">
+    🔓 Download HQ - 1 Pi
   </button>
   <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
 </div>
@@ -122,73 +124,87 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- SON 2 : PETIT DAMELO -->
 <div class="carte-son">
   <h3>🎵 Petit Damelo</h3>
-  
   <audio controls controlsList="nodownload" style="width: 100%;">
     <source src="/petit-damelo.mp3" type="audio/mpeg">
   </audio>
-
   <button class="btn-download" onclick="lancerPaiement('/musiques/petit-damelo.mp3', 'Petit Damelo')">
-    🔓 Download HQ - 1Pi
+    🔓 Download HQ - 1 Pi
   </button>
   <p class="cadenas">🔒 Le téléchargement HD est débloqué après paiement</p>
 </div>
-   
-  <button onclick="p
 
-    <h2>📱 Suivez-moi partout</h2>
-    <div class="social-links">
-      <a href="https://youtube.com/@dj-damelo?si=FNKO22RfBB6CczMn" target="_blank">▶️ YouTube</a>
-      <a href="https://open.spotify.com/user/31gwxocjetwo6psikmpge57cmpw4?si=GTRme8q6QWev1idi1k_w5A" target="_blank">🎵 Spotify</a>
-      <a href="https://on.soundcloud.com/J9QWLMdqzJxhputfo5" target="_blank">☁️ SoundCloud</a>
-      <a href="https://www.boomplay.com/shareUser/113931343?share_platform=an&srList=ANDROID&srModel=byWH&share_channel=whatsapp&share_content=user" target="_blank">💿 Boomplay</a>
-      <a href="https://vm.tiktok.com/ZS96T3CcfbdEE-ym6vk/" target="_blank">♪ TikTok</a>
-      <a href="https://www.instagram.com/dj_damelo?igsh=a2Zzejd4b2xpYjZz" target="_blank">📷 Insta</a>
-      <a href="https://www.facebook.com/share/18yyeS1TaS/" target="_blank">f Facebook</a>
-      <a href="https://x.com/Dj_Damelo" target="_blank">𝕏 X</a>
-      <a href="https://rapfame.app/user/dj_damelo" target="_blank">🎤 Rapfame</a>
-      <a href="https://t.me/+233242668880" target="_blank">💬 Telegram</a>
-      <a href="https://www.linkedin.com/in/bro-elisha-768b38231?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">💼 LinkedIn</a>
-      <a href="https://maps.app.goo.gl/ERrLjFgSFWdrf28T8" target="_blank">📍 Google</a>
-    </div>
+<!-- SOCIALS -->
+<div style="margin-top:30px;">
+  <h2 style="color:white;">📱 Suivez-moi partout</h2>
+  <div class="socials">
+    <a href="https://youtube.com/@dj-damelo" target="_blank">▶️ YouTube</a>
+    <a href="https://open.spotify.com/user/31gwxocjetwo6psikmpge57cmpw4" target="_blank">🎵 Spotify</a>
+    <a href="https://on.soundcloud.com/J9QWLMdqzJxhputfo5" target="_blank">☁️ SoundCloud</a>
+    <a href="https://www.tiktok.com/@dj_damelo" target="_blank">♪ TikTok</a>
+    <a href="https://www.instagram.com/dj_damelo" target="_blank">📷 Insta</a>
+    <a href="https://www.facebook.com/share/18yyeS1TaS/" target="_blank">f Facebook</a>
+  </div>
+</div>
 
-    <div class="contact">
-      <h2>📞 Contact / Booking</h2>
-      <p>WhatsApp 1: <a href="https://wa.me/233242668880" target="_blank">+233 24 266 8880</a></p>
-      <p>WhatsApp 2: <a href="https://wa.me/22896275873" target="_blank">+228 96 27 58 73</a></p>
-      <p>Email: dj.damelo.music@gmail.com</p>
-    </div>
+<div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:15px; margin-top:20px;">
+  <h2 style="color:white; font-size:18px;">📞 Contact / Booking</h2>
+  <p>WhatsApp: <a href="https://wa.me/233242668880" style="color:white; font-weight:bold;">+233 24 266 8880</a></p>
+  <p style="font-size:14px;">Email: dj.damelo.music@gmail.com</p>
+</div>
 
-  <!-- 1. LE SDK PI -->
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+</div> <!-- fin container -->
+
+<!-- SCRIPT PI FINAL - UNE SEULE FOIS -->
 <script>
-Pi.init({ version: "2.0", sandbox: true }); // 1. TRUE pour tester
+// Gestion Login
+const loginBtn = document.getElementById('pi-login-btn');
+const userDiv = document.getElementById('pi-user');
 
+async function loginWithPi() {
+  try {
+    const scopes = ['username', 'payments'];
+    function onIncompletePaymentFound(payment) { console.log("Paiement incomplet", payment); }
+    const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
+    loginBtn.innerText = "✅ " + auth.user.username;
+    userDiv.innerText = "Bienvenue " + auth.user.username + " !";
+    localStorage.setItem('pi_user', auth.user.username);
+    return auth;
+  } catch (err) {
+    alert("Ouvre cette app dans Pi Browser pour te connecter");
+    console.log(err);
+  }
+}
+if(loginBtn) loginBtn.addEventListener('click', loginWithPi);
+
+// Gestion Paiement
 async function lancerPaiement(fichier, nom) {
   if(!window.Pi) {
-    alert("Ouvre dans Pi Browser");
+    alert("Ouvre cette app dans Pi Browser pour payer avec Pi");
     return;
   }
-
-  await Pi.authenticate(['username', 'payments']);
-
-  Pi.createPayment({
-    amount: 1,
-    memo: "Test - " + nom,
-    metadata: { son: nom }
-  }, {
-    onReadyForServerApproval: (paymentId) => {
-      console.log("Approuvé: ", paymentId);
-      // On auto-approuve pour test
-    },
-    onReadyForServerCompletion: (paymentId, txid) => {
-      alert("✅ Paiement Test Réussi !");
-      window.location.href = fichier;
-    },
-    onCancel: () => alert("Paiement annulé"),
-    onError: (error) => alert("Erreur: " + error)
-  });
+  try {
+    if(!localStorage.getItem('pi_user')) {
+      await loginWithPi();
+    }
+    await Pi.createPayment({
+      amount: 1,
+      memo: "DJ DAMELO - " + nom,
+      metadata: { song: nom, file: fichier }
+    }, {
+      onReadyForServerApproval: function(paymentId) {
+        console.log("Payment à approuver:", paymentId);
+        // Pour le test sandbox, on passe direct
+        // En mainnet tu devras approuver via ton serveur backend
+      },
+      onReadyForServerCompletion: function(paymentId, txid) {
+        alert("✅ Paiement Pi réussi ! Merci pour le soutien 🎉");
+        window.location.href = fichier;
+      },
+      onCancel: function(paymentId) { alert("Paiement annulé"); },
+      onError: function(error) { alert("Erreur: " + error.message); }
+    });
+  } catch(e) { console.log(e); }
 }
 </script>
-
 </body>
 </html>
