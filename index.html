@@ -192,13 +192,21 @@ async function lancerPaiement(fichier, nom) {
       metadata: { song: nom, file: fichier }
     }, {
       onReadyForServerApproval: function(paymentId) {
-        console.log("Payment à approuver:", paymentId);
-        // Pour le test sandbox, on passe direct
-        // En mainnet tu devras approuver via ton serveur backend
-      },
-      onReadyForServerCompletion: function(paymentId, txid) {
-        alert("✅ Paiement Pi réussi ! Merci pour le soutien 🎉");
-        window.location.href = fichier;
+  console.log("APPROVE ID:", paymentId);
+  return fetch('/api/approve', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paymentId: paymentId })
+  }).then(r => r.json());
+},
+onReadyForServerCompletion: function(paymentId, txid) {
+  return fetch('/api/complete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paymentId, txid })
+  }).then(() => {
+    alert("✅ Paiement validé !");
+    window.location.href = fichier;
       },
       onCancel: function(paymentId) { alert("Paiement annulé"); },
       onError: function(error) { alert("Erreur: " + error.message); }
