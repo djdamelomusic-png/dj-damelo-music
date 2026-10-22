@@ -13,9 +13,13 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({ txid })
     });
-if (!response.ok) throw new Error("Pi a refusé la validation");
+
+    const data = await response.json();
+    console.log("COMPLETE RESULT:", data);
+
+    if (!response.ok) throw new Error(JSON.stringify(data));
     
-    res.status(200).json({ status: "completed" });
+    res.status(200).json({ status: "completed", data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
